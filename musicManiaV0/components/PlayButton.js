@@ -28,7 +28,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    flex: 1,
+    // flex: 1,
+    height: '100%',
+    width: '100%',
     backgroundColor: 'powderblue',
   },
 });

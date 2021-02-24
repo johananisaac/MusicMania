@@ -19,30 +19,25 @@ export default class SelectScreenWrapper extends Component {
         <Text style={styles.paragraph}>
           Tap the songs below to add them to the current playlist!
         </Text>
-        <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={styles.row}>
           <SelectOption name='Saxophone' onPress={() => this.addToPlaylist("Saxophone")}/>
           <SelectOption name='Piano' onPress={() => this.addToPlaylist("Piano")}/>
-          <SelectOption name='Sample Song' onPress={() => this.addToPlaylist("Sample Song")}/>
+          <SelectOption name='Violin' onPress={() => this.addToPlaylist("Violin")}/>
         </View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <SelectOption name='Saxophone' onPress={() => this.addToPlaylist("Saxophone")}/>
-          <SelectOption name='Piano' onPress={() => this.addToPlaylist("Piano")}/>
-          <SelectOption name='Sample Song' onPress={() => this.addToPlaylist("Sample Song")}/>
+        <View style={styles.row}>
+          <SelectOption name='Sample Song1' onPress={() => this.addToPlaylist("Sample Song1")}/>
+          <SelectOption name='Sample Song2' onPress={() => this.addToPlaylist("Sample Song2")}/>
+          <SelectOption name='Sample Song3' onPress={() => this.addToPlaylist("Sample Song3")}/>
         </View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <SelectOption name='Saxophone' onPress={() => this.addToPlaylist("Saxophone")}/>
-          <SelectOption name='Piano' onPress={() => this.addToPlaylist("Piano")}/>
-          <SelectOption name='Sample Song' onPress={() => this.addToPlaylist("Sample Song")}/>
+        <View style={styles.row}>
+          <SelectOption name='My Song1' onPress={() => this.addToPlaylist("My Song1")}/>
+          <SelectOption name='My Song2' onPress={() => this.addToPlaylist("My Song2")}/>
+          <SelectOption name='My Song3' onPress={() => this.addToPlaylist("My Song3")}/>
         </View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <SelectOption name='Saxophone' onPress={() => this.addToPlaylist("Saxophone")}/>
-          <SelectOption name='Piano' onPress={() => this.addToPlaylist("Piano")}/>
-          <SelectOption name='Sample Song' onPress={() => this.addToPlaylist("Sample Song")}/>
-        </View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <SelectOption name='Saxophone' onPress={() => this.addToPlaylist("Saxophone")}/>
-          <SelectOption name='Piano' onPress={() => this.addToPlaylist("Piano")}/>
-          <SelectOption name='Sample Song' onPress={() => this.addToPlaylist("Sample Song")}/>
+        <View style={styles.row}>
+          <SelectOption name='Whoosh!' onPress={() => this.addToPlaylist("Whoosh!")}/>
+          <SelectOption name='Bop!' onPress={() => this.addToPlaylist("Bop!")}/>
+          <SelectOption name='Pow!' onPress={() => this.addToPlaylist("Pow!")}/>
         </View>
         <Text>
           Playlist: {this.state.playlist}
@@ -65,5 +60,9 @@ const styles = StyleSheet.create({
     // fontSize: 14,
     // fontWeight: 'bold',
     // textAlign: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    marginBottom: '2%',
   },
 });
