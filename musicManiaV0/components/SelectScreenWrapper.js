@@ -9,9 +9,11 @@ export default class SelectScreenWrapper extends Component {
     playlist: []
   }
   addToPlaylist(name) {
-    this.setState({
-      playlist: [...this.state.playlist, name]
-    });
+    if(this.state.playlist.length < 10){
+      this.setState({
+        playlist: [...this.state.playlist, name]
+      });
+    }
   }
   render(){
     return (
@@ -45,7 +47,7 @@ export default class SelectScreenWrapper extends Component {
           <SelectOption name='Sample Song' onPress={() => this.addToPlaylist("Sample Song")}/>
         </View>
         <Text>
-          Playlist: {this.state.playlist}
+          Playlist: {this.state.playlist.join(", ")}
         </Text>
       </View>
     )
