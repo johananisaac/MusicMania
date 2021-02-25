@@ -1,21 +1,29 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import SelectOption from './SelectOption';
 
 export default class SelectScreenWrapper extends Component {
   state = {
-    playlist: []
+    playlist: [],
   }
+
   addToPlaylist(name) {
-    if(this.state.playlist.length < 10){
+    if(this.state.playlist.length < 5){
       this.setState({
         playlist: [...this.state.playlist, name]
       });
     }
   }
   render(){
+    this.playlist = this.state.playlist.map((item) => 
+      <TouchableOpacity style={styles.playlistItem}>
+        <Text style={styles.playlistText}>
+          {item}
+        </Text>
+      </TouchableOpacity>
+    );
     return (
       <View style={styles.container}>
         <Text style={styles.paragraph}>
@@ -41,9 +49,10 @@ export default class SelectScreenWrapper extends Component {
           <SelectOption name='Bop!' onPress={() => this.addToPlaylist("Bop!")}/>
           <SelectOption name='Pow!' onPress={() => this.addToPlaylist("Pow!")}/>
         </View>
-        <Text>
-          Playlist: {this.state.playlist.join(", ")}
-        </Text>
+        <View style={styles.playlist}>
+          <Text style={styles.playlistText}>Playlist</Text>
+          <View style={styles.playlist}>{this.playlist}</View>
+        </View>
       </View>
     )
   }
@@ -67,4 +76,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: '2%',
   },
+  playlist: {
+    width: 320,
+  },
+  playlistItem: {
+  	maxHeight: 200,
+    backgroundColor: 'powderblue',
+  },
+  playlistText: {
+  	fontSize: 20,
+  	textAlign: 'center'
+  }
 });
