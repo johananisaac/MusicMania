@@ -18,11 +18,11 @@ export default class SelectScreenWrapper extends Component {
   }
   render(){
     this.playlist = this.state.playlist.map((item) => 
-      <TouchableOpacity style={styles.playlistItem}>
-        <Text style={styles.playlistText}>
-          {item}
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.playlistItem} key={item.toString()}>
+          <Text style={styles.playlistText}>
+            {item}
+          </Text>
+        </TouchableOpacity>
     );
     return (
       <View style={styles.container}>
@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   paragraph: {
-    // margin: 24,
-    // marginTop: 0,
-    // fontSize: 14,
-    // fontWeight: 'bold',
-    // textAlign: 'center',
+    margin: 24,
+    marginTop: 0,
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   row: {
     flexDirection: 'row',
@@ -82,6 +82,9 @@ const styles = StyleSheet.create({
   playlistItem: {
   	maxHeight: 200,
     backgroundColor: 'powderblue',
+    borderRadius: 5,
+    borderColor: 'black',
+    borderWidth: 2,
   },
   playlistText: {
   	fontSize: 20,

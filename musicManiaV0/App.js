@@ -10,11 +10,14 @@ import SelectScreenWrapper from './components/SelectScreenWrapper';
 function TutorialScreen({ navigation }) {
   return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button 
-          style={styles.button}
-          title="Get Started!"
-          onPress={() => navigation.navigate('Home')}
-        />
+        <Text style={styles.paragraph}>
+          Interactive tutorial coming soon!
+        </Text>
+        <TouchableOpacity
+            onPress={() => navigation.navigate('Home')}
+            style={styles.button}>
+            <Text style={styles.buttonText}>Get Started!</Text>
+        </TouchableOpacity>
       </View>
   );
 }
@@ -23,19 +26,16 @@ function HomeScreen({ navigation }) {
   return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <View style={{flexDirection: 'row'}}>
-          <Button 
-            title="Play"
+          <TouchableOpacity
             onPress={() => navigation.navigate('Play')}
-          />
-          <Button 
-            title="Select"
-            onPress={() => navigation.navigate('Select')}
-          />
+            style={styles.button}>
+            <Text style={styles.buttonText}>PLAY!</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('Select')}
             style={styles.button}>
-            <Text style={styles.container}>PLAY!</Text>
-        </TouchableOpacity>
+            <Text style={styles.buttonText}>SELECT!</Text>
+          </TouchableOpacity>
         </View>
       </View>
   );
@@ -86,10 +86,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'powderblue',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 5,
+    textAlign: 'center',
   },
   buttonText: {
     fontSize: 20,
-    color: '#fff',
-    fontWeight: '300'
+    color: 'black',
+    fontWeight: '300',
+    textAlign: 'center',
+  },
+  paragraph: {
+    margin: 24,
+    marginTop: 0,
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });

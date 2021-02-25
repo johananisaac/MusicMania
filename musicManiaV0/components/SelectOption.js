@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { Component } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
@@ -34,6 +33,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'powderblue',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 5,
   },
   buttonText: {
     fontSize: 20,
