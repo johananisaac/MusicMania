@@ -9,7 +9,7 @@ import SelectScreenWrapper from './components/SelectScreenWrapper';
 
 function TutorialScreen({ navigation }) {
   return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={styles.container}>
         <Text style={styles.paragraph}>
           Interactive tutorial coming soon!
         </Text>
@@ -24,8 +24,7 @@ function TutorialScreen({ navigation }) {
 
 function HomeScreen({ navigation }) {
   return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <View style={{flexDirection: 'row'}}>
+      <View style={styles.container}>
           <TouchableOpacity
             onPress={() => navigation.navigate('Play')}
             style={styles.button}>
@@ -36,7 +35,6 @@ function HomeScreen({ navigation }) {
             style={styles.button}>
             <Text style={styles.buttonText}>SELECT!</Text>
           </TouchableOpacity>
-        </View>
       </View>
   );
 }
@@ -51,7 +49,7 @@ function PlayScreen({ navigation }) {
 
 function SelectScreen({ navigation }) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={styles.containerRow}>
       <SelectScreenWrapper />
     </View>
   );
@@ -75,31 +73,45 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  containerRow: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'stretch',
   },
   button: {
-    marginLeft: 10,
-    width: 100,
-    height: 100,
-    backgroundColor: 'powderblue',
-    alignItems: 'center',
+    margin: 10,
+    flex: 1,
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
-    borderRadius: 5,
     textAlign: 'center',
+    padding: 10,
+
+    borderRadius: 5,
+    backgroundColor: 'white',
+    
+    borderColor: 'red',
+    borderWidth: 2,
   },
   buttonText: {
-    fontSize: 20,
+    fontSize: 30,
     color: 'black',
     fontWeight: '300',
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   paragraph: {
     margin: 24,
     marginTop: 0,
-    fontSize: 14,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
+    color: 'white',
   },
 });

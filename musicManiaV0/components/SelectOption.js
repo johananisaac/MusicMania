@@ -27,17 +27,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
-    marginLeft: 10,
+    margin: 5,
     width: 100,
     height: 100,
-    backgroundColor: 'powderblue',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
+    borderColor: 'red',
+    borderWidth: 2,
   },
   buttonText: {
     fontSize: 20,
-    color: '#fff',
+    color: 'black',
     fontWeight: '300'
   },
 });

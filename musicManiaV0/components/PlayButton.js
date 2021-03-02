@@ -47,22 +47,28 @@ export default class PlayButton extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'black',
     justifyContent: 'center',
-    padding: 24,
+    alignItems: 'stretch',
   },
   paragraph: {
-    margin: 24,
     marginTop: 0,
-    fontSize: 14,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   button: {
+    margin: 20,
     flex: 1,
     height: '100%',
     width: '100%',
-    backgroundColor: 'powderblue',
+    backgroundColor: 'white',
     borderRadius: 5,
+    borderColor: 'red',
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

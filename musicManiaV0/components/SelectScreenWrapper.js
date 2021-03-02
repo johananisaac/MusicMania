@@ -50,7 +50,7 @@ export default class SelectScreenWrapper extends Component {
           <SelectOption name='Pow!' onPress={() => this.addToPlaylist("Pow!")}/>
         </View>
         <View style={styles.playlist}>
-          <Text style={styles.playlistText}>Playlist</Text>
+          <Text style={styles.paragraph}>Playlist</Text>
           <View style={styles.playlist}>{this.playlist}</View>
         </View>
       </View>
@@ -71,23 +71,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'center',
+    color: 'white'
   },
   row: {
     flexDirection: 'row',
-    marginBottom: '2%',
   },
   playlist: {
     width: 320,
   },
   playlistItem: {
   	maxHeight: 200,
-    backgroundColor: 'powderblue',
+    backgroundColor: 'white',
     borderRadius: 5,
-    borderColor: 'black',
     borderWidth: 2,
+    borderColor: 'red',
   },
   playlistText: {
   	fontSize: 20,
-  	textAlign: 'center'
+  	textAlign: 'center',
+    color: 'black'
   }
 });
