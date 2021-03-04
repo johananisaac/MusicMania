@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 // Local files
 import PlayButton from './components/PlayButton';
 import SelectScreenWrapper from './components/SelectScreenWrapper';
+import PlaylistEditorScreenWrapper from './components/PlaylistEditorScreenWrapper';
 
 function TutorialScreen({ navigation }) {
   return (
@@ -50,7 +51,20 @@ function PlayScreen({ navigation }) {
 function SelectScreen({ navigation }) {
   return (
     <View style={styles.containerRow}>
+      <PlaylistEditorScreenWrapper nav={navigation}/>
+    </View>
+  );
+}
+
+function PlaylistEditorScreen({ navigation }) {
+  return (
+    <View style={styles.container}>
       <SelectScreenWrapper />
+      <TouchableOpacity
+            onPress={() => navigation.navigate('Play')}
+            style={styles.button}>
+            <Text style={styles.buttonText}>Let's Play!</Text>
+          </TouchableOpacity>
     </View>
   );
 }
@@ -65,6 +79,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Play" component={PlayScreen} />
         <Stack.Screen name="Select" component={SelectScreen} />
+        <Stack.Screen name="Playlist" component={PlaylistEditorScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
