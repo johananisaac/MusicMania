@@ -16,9 +16,17 @@ export default class SelectScreenWrapper extends Component {
       });
     }
   }
+
+  removeFromPlaylist(id) {
+    this.state.playlist.splice(id, 1);
+    this.forceUpdate();
+  }
+
   render(){
-    this.playlist = this.state.playlist.map((item) => 
-        <TouchableOpacity style={styles.playlistItem} key={item.toString()}>
+    this.playlist = this.state.playlist.map((item, index) => 
+        <TouchableOpacity style={styles.playlistItem} 
+          key={index}
+          onPress={() => this.removeFromPlaylist(index)}>
           <Text style={styles.playlistText}>
             {item}
           </Text>

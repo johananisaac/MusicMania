@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import{Audio} from 'expo-av';
+import { Text, View, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import {Audio} from 'expo-av';
+// Use Animated library for ripples in the future
+import Ripple from 'react-native-material-ripple';
 
 export default class PlayButton extends Component {
   constructor(props){
@@ -10,6 +12,7 @@ export default class PlayButton extends Component {
 
   async componentDidMount() {
     this.music = new Audio.Sound();
+    
     try {
       await this.music.loadAsync(
         require("../assets/music/Eine_Kleine_Nachtmusik_by_Mozart_Copyright_Free_Music.mp3")
@@ -22,24 +25,24 @@ export default class PlayButton extends Component {
   }
 
   onPlayIn = () => {
-    this.music.replayAsync();
+    this.music.playAsync();
   }
 
   onPlayOut = () => {
-    this.music.stopAsync();
+    this.music.pauseAsync();
   }
 
   render(){
     return (
       <View style={styles.container}>
-        <TouchableOpacity
-        style={styles.button}
-        onPressIn={this.onPlayIn}
-        onPressOut={this.onPlayOut}>
-        <Text style={styles.paragraph}>
-          Touch anywhere on the screen to play music!
-        </Text>
-        </TouchableOpacity>
+        <Ripple style={styles.button}
+          onPressIn={this.onPlayIn}
+          onPressOut={this.onPlayOut}
+          rippleSize={150}>
+          <Text style={styles.paragraph}>
+            Touch anywhere on the screen to play music!
+          </Text>
+        </Ripple>
       </View>
     );
   }
@@ -70,5 +73,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 });
+
+
