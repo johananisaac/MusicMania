@@ -12,14 +12,19 @@ export default class PlaylistEditorScreenWrapper extends Component {
   async getName() {
     try{
       let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
-      this.setState({
-        playlist_names: JSON.parse(playlistsTemp),
-      });
+      if(playlistsTemp != null){
+        this.setState({
+          playlist_names: JSON.parse(playlistsTemp),
+        });
+      }
     }
     catch(err){
       alert(err);
     }
 
+  }
+  componentDidMount(){
+    this.getName();
   }
 
 
@@ -29,7 +34,6 @@ export default class PlaylistEditorScreenWrapper extends Component {
     );
     return (
       <View style={styles.container}>
-        <SelectOption name="Get playlists" onPress={() => this.getName()}/>
         <Text style={styles.paragraph}>
           Tap the songs below to add them to the current playlist!
         </Text>
