@@ -28,8 +28,10 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 5,
-    width: 100,
-    height: 100,
+    // width: 100, // Phone
+    // height: 100, // Phone
+    width: 250, // iPad
+    height: 250, // iPad
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
@@ -38,7 +40,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   buttonText: {
-    fontSize: 18,
+    // fontSize: 18, // Phone
+    fontSize: 40, // iPad
     fontWeight: 'bold',
     color: 'black',
     textAlign: 'center'

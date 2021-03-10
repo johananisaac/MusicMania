@@ -53,7 +53,7 @@ function PlayScreen({ navigation }) {
         <TouchableOpacity
             onPress={() => navigation.navigate('Home')}
             style={styles.buttonShort}>
-            <Text style={styles.buttonText}>Back to home!</Text>
+            <Text style={styles.shortButtonText}>Back to home!</Text>
         </TouchableOpacity>
         <PlayButton />
         <Separator />
@@ -133,7 +133,16 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   buttonText: {
-    fontSize: 30,
+    // fontSize: 30, // Phone
+    fontSize: 70, // iPad
+    color: 'black',
+    fontWeight: '300',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  shortButtonText: {
+    // fontSize: 30, // Phone
+    fontSize: 50, // iPad
     color: 'black',
     fontWeight: '300',
     textAlign: 'center',

@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
   paragraph: {
     margin: 24,
     marginTop: 0,
-    fontSize: 14,
+    // fontSize: 14, // Phone
+    fontSize: 40, // iPad
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'white'
@@ -134,7 +135,8 @@ const styles = StyleSheet.create({
     borderColor: 'red',
   },
   playlistText: {
-  	fontSize: 20,
+  	// fontSize: 20, // Phone
+    fontSize: 40, // iPad
   	textAlign: 'center',
     color: 'black'
   },
