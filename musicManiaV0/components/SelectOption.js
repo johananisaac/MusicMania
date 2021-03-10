@@ -14,7 +14,7 @@ export default class SelectOption extends Component {
         <TouchableOpacity
           onPress={this.props.onPress}
           style={styles.button}>
-          <Text style={styles.container}>{this.props.name}</Text>
+          <Text style={styles.buttonText}>{this.props.name}</Text>
         </TouchableOpacity>
       </View>
     )
@@ -38,8 +38,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   buttonText: {
-    fontSize: 20,
+    fontSize: 18,
+    fontWeight: 'bold',
     color: 'black',
-    fontWeight: '300'
+    textAlign: 'center'
   },
 });

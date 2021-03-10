@@ -4,6 +4,7 @@
 With [Node 12 LTS](https://nodejs.org/en/download/) or greater installed, you can use npm to install the Expo CLI command line utility:
 ```
 npm install -g expo-cli
+npm install --save react-native-material-ripple
 ```
 
 ## Running Music Mania

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, AsyncStorage } from 'react-native';
 import SelectOption from './SelectOption';
 
 export default class PlaylistEditorScreenWrapper extends Component {
@@ -21,28 +21,29 @@ export default class PlaylistEditorScreenWrapper extends Component {
     catch(err){
       alert(err);
     }
-
   }
+
   componentDidMount(){
     this.getName();
   }
 
-
   render(){
-    this.playlist_names = this.state.playlist_names.map((item) => 
-        <SelectOption name={item}/>
+    this.playlist_names = this.state.playlist_names.map((item, index) => 
+        <SelectOption name={item} key={index} onPress={() => this.props.nav.navigate('Playlist')}/>
     );
     return (
+      <ScrollView>
       <View style={styles.container}>
         <Text style={styles.paragraph}>
-          Tap the songs below to add them to the current playlist!
+          Choose a playlist to edit, or create a new one!
         </Text>
-        <View style={styles.row}>
+        <View>
           {this.playlist_names}
           <SelectOption name='My Favorites' onPress={() => this.props.nav.navigate('Playlist')}/>
           <SelectOption name='Create New Playlist' onPress={() =>  this.props.nav.navigate('Playlist')}/>
         </View>
       </View>
+      </ScrollView>
     )
   } 
 }
@@ -56,13 +57,14 @@ const styles = StyleSheet.create({
   paragraph: {
     margin: 24,
     marginTop: 0,
-    fontSize: 14,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'white'
   },
   row: {
     flexDirection: 'row',
+    flex: 1,
   },
   playlist: {
     width: 320,
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
     borderColor: 'red',
   },
   playlistText: {
-  	fontSize: 20,
+  	fontSize: 30,
   	textAlign: 'center',
     color: 'black'
   }

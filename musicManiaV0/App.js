@@ -8,6 +8,10 @@ import PlayButton from './components/PlayButton';
 import SelectScreenWrapper from './components/SelectScreenWrapper';
 import PlaylistEditorScreenWrapper from './components/PlaylistEditorScreenWrapper';
 
+const Separator = () => (
+  <View style={styles.separator} />
+);
+
 function TutorialScreen({ navigation }) {
   return (
       <View style={styles.container}>
@@ -19,6 +23,7 @@ function TutorialScreen({ navigation }) {
             style={styles.button}>
             <Text style={styles.buttonText}>Get Started!</Text>
         </TouchableOpacity>
+        <Separator />
       </View>
   );
 }
@@ -26,29 +31,37 @@ function TutorialScreen({ navigation }) {
 function HomeScreen({ navigation }) {
   return (
       <View style={styles.container}>
+          <Separator />
           <TouchableOpacity
             onPress={() => navigation.navigate('Play')}
             style={styles.button}>
             <Text style={styles.buttonText}>PLAY!</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Select')}
+            onPress={() => navigation.navigate('Playlist Options')}
             style={styles.button}>
             <Text style={styles.buttonText}>SELECT!</Text>
           </TouchableOpacity>
+          <Separator />
       </View>
   );
 }
 
 function PlayScreen({ navigation }) {
   return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={styles.container}>
+        <TouchableOpacity
+            onPress={() => navigation.navigate('Home')}
+            style={styles.buttonShort}>
+            <Text style={styles.buttonText}>Back to home!</Text>
+        </TouchableOpacity>
         <PlayButton />
+        <Separator />
       </View>
   );
 }
 
-function SelectScreen({ navigation }) {
+function PlaylistSelectScreen({ navigation }) {
   return (
     <View style={styles.containerRow}>
       <PlaylistEditorScreenWrapper nav={navigation}/>
@@ -59,12 +72,7 @@ function SelectScreen({ navigation }) {
 function PlaylistEditorScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <SelectScreenWrapper />
-      <TouchableOpacity
-            onPress={() => navigation.navigate('Play')}
-            style={styles.button}>
-            <Text style={styles.buttonText}>Let's Play!</Text>
-          </TouchableOpacity>
+      <SelectScreenWrapper nav={navigation}/>
     </View>
   );
 }
@@ -78,7 +86,7 @@ export default function App() {
         <Stack.Screen name="Tutorial" component={TutorialScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Play" component={PlayScreen} />
-        <Stack.Screen name="Select" component={SelectScreen} />
+        <Stack.Screen name="Playlist Options" component={PlaylistSelectScreen} />
         <Stack.Screen name="Playlist" component={PlaylistEditorScreen} />
       </Stack.Navigator>
     </NavigationContainer>
@@ -106,11 +114,21 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     textAlign: 'center',
-    padding: 10,
 
     borderRadius: 5,
     backgroundColor: 'white',
     
+    borderColor: 'red',
+    borderWidth: 2,
+  },
+  buttonShort: {
+    width: '100%',
+    height: '5%',
+    justifyContent: 'center',
+    textAlign: 'center',
+
+    borderRadius: 5,
+    backgroundColor: 'white',
     borderColor: 'red',
     borderWidth: 2,
   },
@@ -128,5 +146,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'white',
+  },
+  separator: {
+    width: '100%',
+    height: '3%',
+    backgroundColor: 'black'
   },
 });

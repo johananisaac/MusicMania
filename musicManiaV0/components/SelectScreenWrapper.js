@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView, AsyncStorage } from 'react-native';
 import SelectOption from './SelectOption';
 import { TextInput } from 'react-native-gesture-handler';
 
@@ -16,7 +16,7 @@ export default class SelectScreenWrapper extends Component {
   // save playlist
   async savePlaylist() {
     try{
-      //await AsyncStorage.clear();
+      // await AsyncStorage.clear();
       let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
       if(playlistsTemp == null){
         let playlists = [];
@@ -29,7 +29,8 @@ export default class SelectScreenWrapper extends Component {
         await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
       }
       await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
-      //await AsyncStorage.clear();
+      // await AsyncStorage.clear();
+      this.props.nav.navigate('Play');
     }
     catch (err){
       alert(err);
@@ -60,11 +61,14 @@ export default class SelectScreenWrapper extends Component {
         </TouchableOpacity>
     );
     return (
+      <ScrollView>
       <View style={styles.container}>
+        <View style={{flexDirection: 'row', flex: 1, width: '100%', alignContent: 'space-between'}}>
         <Text style={styles.paragraph}>
           Name Playlist:
         </Text>
         <TextInput style={styles.input} onChangeText={(text) => this.setName(text)}/>
+        </View>
         <Text style={styles.paragraph}>
           Tap the songs below to add them to the current playlist!
         </Text>
@@ -92,10 +96,11 @@ export default class SelectScreenWrapper extends Component {
           <Text style={styles.paragraph}>Playlist</Text>
           <View style={styles.playlist}>{this.playlist}</View>
         </View>
-        <View>
-          <SelectOption name='Save Playlist!' onPress={() => this.savePlaylist()}/>
+        <View style={{flexDirection: 'row'}}>
+          <SelectOption name='Play' onPress={() => this.savePlaylist()}/>
         </View>
       </View>
+      </ScrollView>
     )
   }
   
@@ -136,6 +141,7 @@ const styles = StyleSheet.create({
   input: {
     borderColor: 'white',
     alignSelf:"stretch",
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    width: '60%'
   }
 });

@@ -51,7 +51,6 @@ export default class PlayButton extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
     backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'stretch',
@@ -66,7 +65,6 @@ const styles = StyleSheet.create({
     margin: 20,
     flex: 1,
     height: '100%',
-    width: '100%',
     backgroundColor: 'white',
     borderRadius: 5,
     borderColor: 'red',
