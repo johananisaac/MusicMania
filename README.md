@@ -5,6 +5,7 @@ With [Node 12 LTS](https://nodejs.org/en/download/) or greater installed, you ca
 ```
 npm install -g expo-cli
 npm install --save react-native-material-ripple
+cd musicManiaV0
 ```
 
 ## Running Music Mania
