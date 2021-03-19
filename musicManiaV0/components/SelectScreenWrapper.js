@@ -15,25 +15,33 @@ export default class SelectScreenWrapper extends Component {
   }
   // save playlist
   async savePlaylist() {
-    try{
-      // await AsyncStorage.clear();
-      let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
-      if(playlistsTemp == null){
-        let playlists = [];
-        playlists.push(this.state.playlistName.toString());
-        await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
-      }
-      else{
-        let playlists = JSON.parse(playlistsTemp);
-        playlists.push(this.state.playlistName.toString());
-        await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
-      }
-      await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
-      // await AsyncStorage.clear();
-      this.props.nav.navigate('Play');
+    if(this.state.playlistName == ''){
+      alert("Name your playlist!");
     }
-    catch (err){
-      alert(err);
+    else{
+      try{
+        // set current Playlist
+        await AsyncStorage.setItem("Current-Playlist", this.state.playlistName.toString());
+
+        // await AsyncStorage.clear();
+        let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
+        if(playlistsTemp == null){
+          let playlists = [];
+          playlists.push(this.state.playlistName.toString());
+          await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
+        }
+        else{
+          let playlists = JSON.parse(playlistsTemp);
+          playlists.push(this.state.playlistName.toString());
+          await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
+        }
+        await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
+        // await AsyncStorage.clear();
+        this.props.nav.navigate('Play');
+      }
+      catch (err){
+        alert(err);
+      }
     }
   }
 
