@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
-import {Audio} from 'expo-av';
+import { Text, View } from 'react-native';
+import { Audio } from 'expo-av';
+import { CustomStyleSheet } from '../styles'
 // Use Animated library for ripples in the future
 import Ripple from 'react-native-material-ripple';
 
@@ -34,12 +35,12 @@ export default class PlayButton extends Component {
 
   render(){
     return (
-      <View style={styles.container}>
-        <Ripple style={styles.button}
+      <View style={CustomStyleSheet.container}>
+        <Ripple style={CustomStyleSheet.playButton}
           onPressIn={this.onPlayIn}
           onPressOut={this.onPlayOut}
           rippleSize={150}>
-          <Text style={styles.paragraph}>
+          <Text style={CustomStyleSheet.playButtonText}>
             Touch anywhere on the screen to play music!
           </Text>
         </Ripple>
@@ -47,31 +48,3 @@ export default class PlayButton extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-  },
-  paragraph: {
-    marginTop: 0,
-    fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  button: {
-    margin: 20,
-    flex: 1,
-    height: '100%',
-    backgroundColor: 'white',
-    borderRadius: 5,
-    borderColor: 'red',
-    borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-});
-
-

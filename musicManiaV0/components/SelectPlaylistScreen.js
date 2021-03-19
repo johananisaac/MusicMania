@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { Component } from 'react';
-import { Text, View, StyleSheet, ScrollView, AsyncStorage } from 'react-native';
+import { Text, View, ScrollView, AsyncStorage } from 'react-native';
 import SelectOption from './SelectOption';
+import { CustomStyleSheet } from '../styles';
 
-export default class PlaylistEditorScreenWrapper extends Component {
+export default class SelectPlaylistScreen extends Component {
   state = {
     playlist_names: [],
   }
@@ -33,8 +33,8 @@ export default class PlaylistEditorScreenWrapper extends Component {
     );
     return (
       <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.paragraph}>
+      <View style={CustomStyleSheet.container}>
+        <Text style={CustomStyleSheet.baseParagraph}>
           Choose a playlist to edit, or create a new one!
         </Text>
         <View>
@@ -47,38 +47,3 @@ export default class PlaylistEditorScreenWrapper extends Component {
     )
   } 
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-  },
-  paragraph: {
-    margin: 24,
-    marginTop: 0,
-    fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'white'
-  },
-  row: {
-    flexDirection: 'row',
-    flex: 1,
-  },
-  playlist: {
-    width: 320,
-  },
-  playlistItem: {
-  	maxHeight: 200,
-    backgroundColor: 'white',
-    borderRadius: 5,
-    borderWidth: 2,
-    borderColor: 'red',
-  },
-  playlistText: {
-  	fontSize: 30,
-  	textAlign: 'center',
-    color: 'black'
-  }
-});
