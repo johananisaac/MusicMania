@@ -1,34 +1,38 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Text, View, TouchableOpacity} from 'react-native';
+import { TouchableOpacity} from 'react-native';
 import { CustomStyleSheet } from '../styles';
+import Theme, {createThemedComponent } from 'react-native-theming';
+
+const Button = createThemedComponent(TouchableOpacity);
 
 // General purpose separator
 const Separator = () => (
-  <View style={CustomStyleSheet.separator} />
+  <Theme.View style={CustomStyleSheet.styles.separator} />
 );
 
 export default class PlayOptionsScreen extends Component {
   render(){
     return (
-        <View style={CustomStyleSheet.container}>
+        <Theme.View style={CustomStyleSheet.styles.container}>
         <Separator />
-        <View style={CustomStyleSheet.containerRow}>
-            <TouchableOpacity
+        <Theme.View style={CustomStyleSheet.styles.containerRow}>
+            <Button
             onPress={() => this.props.nav.navigate('Play')}
-            style={CustomStyleSheet.button}>
-            <Text style={CustomStyleSheet.buttonText}>FREE PLAY!</Text>
-            </TouchableOpacity>
-        </View>
+            style={CustomStyleSheet.styles.button}>
+            <Theme.Text style={CustomStyleSheet.styles.buttonText}>FREE PLAY!</Theme.Text>
+            </Button>
+        </Theme.View>
         <Separator />
-        <View style={CustomStyleSheet.containerRow}>
-            <TouchableOpacity
+        <Theme.View style={CustomStyleSheet.styles.containerRow}>
+            <Button
             onPress={() => this.props.nav.navigate('Record Play')}
-            style={CustomStyleSheet.button}>
-            <Text style={CustomStyleSheet.buttonText}>RECORD</Text>
-            </TouchableOpacity>
-        </View>
-        </View>
+            style={CustomStyleSheet.styles.button}>
+            <Theme.Text style={CustomStyleSheet.styles.buttonText}>RECORD</Theme.Text>
+            </Button>
+        </Theme.View>
+        <Separator />
+        </Theme.View>
     )
   } 
 }

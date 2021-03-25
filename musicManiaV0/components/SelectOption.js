@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import {TouchableOpacity, Text } from 'react-native';
 import { CustomStyleSheet } from '../styles';
+import Theme, {createThemedComponent } from 'react-native-theming';
+
+const Button = createThemedComponent(TouchableOpacity);
 
  
 export default class SelectOption extends Component {
@@ -10,13 +13,13 @@ export default class SelectOption extends Component {
   }
   render(){
     return (
-      <View>
-        <TouchableOpacity
+      <Theme.View>
+        <Button
           onPress={this.props.onPress}
-          style={CustomStyleSheet.squareButton}>
-          <Text style={CustomStyleSheet.buttonTextMedium}>{this.props.name}</Text>
-        </TouchableOpacity>
-      </View>
+          style={CustomStyleSheet.styles.squareButton}>
+          <Theme.Text style={CustomStyleSheet.styles.buttonTextMedium}>{this.props.name}</Theme.Text>
+        </Button>
+      </Theme.View>
     )
   }
 }

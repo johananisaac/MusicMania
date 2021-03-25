@@ -11,26 +11,28 @@ const Separator = () => (
   <Theme.View style={CustomStyleSheet.styles.separator} />
 );
 
-export default class RecordOwnAudioScreen extends Component {
+export default class SettingsScreen extends Component {
   render(){
     return (
-      <Theme.View style={CustomStyleSheet.styles.container}>
+        <Theme.View style={CustomStyleSheet.styles.container}>
         <Separator />
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
             <Button
-            onPress={() => this.props.nav.navigate('Playlist')}
+            onPress={() => this.props.nav.navigate('Settings Options')}
             style={CustomStyleSheet.styles.button}>
-            <Theme.Text style={CustomStyleSheet.styles.buttonText}>Back to song selection</Theme.Text>
+            <Theme.Text style={CustomStyleSheet.styles.buttonText}>Change Color</Theme.Text>
             </Button>
         </Theme.View>
         <Separator />
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
             <Button
+            onPress={() => this.props.nav.navigate('Text Options')}
             style={CustomStyleSheet.styles.button}>
-            <Theme.Text style={CustomStyleSheet.styles.buttonText}>Record your sound bite</Theme.Text>
+            <Theme.Text style={CustomStyleSheet.styles.buttonText}>Change Text</Theme.Text>
             </Button>
         </Theme.View>
-        </Theme.View>
+        <Separator />
+    </Theme.View>
     )
   } 
 }

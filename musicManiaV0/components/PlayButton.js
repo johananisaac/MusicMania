@@ -1,10 +1,15 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { Audio } from 'expo-av';
 import { CustomStyleSheet } from '../styles'
+import Theme, {createThemedComponent } from 'react-native-theming';
+
+
 // Use Animated library for ripples in the future
 import Ripple from 'react-native-material-ripple';
+
+const ThemeRipple = createThemedComponent(Ripple);
 
 
 // NOTE: ALL MUSIC FORMAT
@@ -159,16 +164,16 @@ export default class PlayButton extends Component {
     */
     render() {
         return (
-            <View style={CustomStyleSheet.container}>
-                <Ripple style={CustomStyleSheet.playButton}
+            <Theme.View style={CustomStyleSheet.styles.container}>
+                <ThemeRipple style={CustomStyleSheet.styles.playButton}
                     onPress={this.onPlayIn}
                     //onPressOut={this.onPlayOut}
                     rippleSize={150}>
-                    <Text style={CustomStyleSheet.playButtonText}>
+                    <Theme.Text style={CustomStyleSheet.styles.playButtonText}>
                         Touch anywhere on the screen to play music!
-          </Text>
-                </Ripple>
-            </View>
+                    </Theme.Text>
+                </ThemeRipple>
+            </Theme.View>
         );
     }
 }

@@ -1,29 +1,32 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Text, View, TouchableOpacity} from 'react-native';
+import { TouchableOpacity} from 'react-native';
 import { CustomStyleSheet } from '../styles';
+import Theme, {createThemedComponent } from 'react-native-theming';
+
+const Button = createThemedComponent(TouchableOpacity);
 
 // General purpose separator
 const Separator = () => (
-  <View style={CustomStyleSheet.separator} />
+  <Theme.View style={CustomStyleSheet.styles.separator} />
 );
 
 export default class TutorialScreen extends Component {
   render(){
     return (
-      <View style={CustomStyleSheet.container}>
-        <Text style={CustomStyleSheet.baseParagraph}>
+      <Theme.View style={CustomStyleSheet.styles.container}>
+        <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
           Interactive tutorial coming soon!
-        </Text>
-        <View style={CustomStyleSheet.containerRow}>
-          <TouchableOpacity
+        </Theme.Text>
+        <Theme.View style={CustomStyleSheet.styles.containerRow}>
+          <Button
               onPress={() => this.props.nav.navigate('Home')}
-              style={CustomStyleSheet.button}>
-              <Text style={CustomStyleSheet.buttonText}>Get Started!</Text>
-          </TouchableOpacity>
-        </View>
+              style={CustomStyleSheet.styles.button}>
+              <Theme.Text style={CustomStyleSheet.styles.buttonText}>Get Started!</Theme.Text>
+          </Button>
+        </Theme.View>
         <Separator />
-      </View>
+      </Theme.View>
     )
   } 
 }

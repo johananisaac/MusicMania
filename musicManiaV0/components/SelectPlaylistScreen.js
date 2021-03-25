@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Text, View, ScrollView, AsyncStorage } from 'react-native';
+import { ScrollView, AsyncStorage } from 'react-native';
 import SelectOption from './SelectOption';
 import { CustomStyleSheet } from '../styles';
+import Theme, {createThemedComponent } from 'react-native-theming';
 
 export default class SelectPlaylistScreen extends Component {
   state = {
@@ -33,16 +34,16 @@ export default class SelectPlaylistScreen extends Component {
     );
     return (
       <ScrollView>
-      <View style={CustomStyleSheet.container}>
-        <Text style={CustomStyleSheet.baseParagraph}>
+      <Theme.View style={CustomStyleSheet.styles.container}>
+        <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
           Choose a playlist to edit, or create a new one!
-        </Text>
-        <View>
+        </Theme.Text>
+        <Theme.View>
           {this.playlist_names}
           <SelectOption name='My Favorites' onPress={() => this.props.nav.navigate('Playlist')}/>
           <SelectOption name='Create New Playlist' onPress={() =>  this.props.nav.navigate('Playlist')}/>
-        </View>
-      </View>
+        </Theme.View>
+      </Theme.View>
       </ScrollView>
     )
   } 
