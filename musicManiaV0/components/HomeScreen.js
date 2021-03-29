@@ -34,7 +34,7 @@ export default class HomeScreen extends Component {
         <Separator />
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
             <Button
-            onPress={() => this.props.nav.navigate('Settings')}
+            onPress={() => this.props.nav.navigate('Settings Options')}
             style={CustomStyleSheet.styles.button}>
             <Theme.Text style={CustomStyleSheet.styles.buttonText}>Settings!</Theme.Text>
             </Button>

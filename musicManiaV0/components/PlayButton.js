@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Text } from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { Audio } from 'expo-av';
 import { CustomStyleSheet } from '../styles'
 import Theme, {createThemedComponent } from 'react-native-theming';
@@ -38,9 +38,28 @@ export default class PlayButton extends Component {
         super(props)
     }
 
+    state = {
+        additional_players: [],
+    }
+
+    async getAdditionalPlayers() {
+        try{
+          let additional_players_temp = await AsyncStorage.getItem("Players");
+          if(additional_players_temp != null){
+            this.setState({
+                additional_players: JSON.parse(additional_players_temp),
+            });
+          }
+        }
+        catch(err){
+          alert(err);
+        }
+    }
+
     async componentDidMount() {
+        this.getAdditionalPlayers();
         this.setState({ currentMusic: TwinkleTwinkle, noteName: "Initalized_state" });
-        this.noteNum = 0
+        this.noteNum = 0;
         // TODO: set proper song object here, from album.
         
     }
@@ -163,6 +182,16 @@ export default class PlayButton extends Component {
     }
     */
     render() {
+        this.additional_players = this.state.additional_players.map((item, index) => 
+            <ThemeRipple name={item} key={index} style={CustomStyleSheet.styles.playButton}
+            onPress={this.onPlayIn}
+            //onPressOut={this.onPlayOut}
+            rippleSize={150}>
+                <Theme.Text style={CustomStyleSheet.styles.playButtonText}>
+                    Player {index+2}: {item}
+                </Theme.Text>
+            </ThemeRipple> 
+        );
         return (
             <Theme.View style={CustomStyleSheet.styles.container}>
                 <ThemeRipple style={CustomStyleSheet.styles.playButton}
@@ -170,9 +199,10 @@ export default class PlayButton extends Component {
                     //onPressOut={this.onPlayOut}
                     rippleSize={150}>
                     <Theme.Text style={CustomStyleSheet.styles.playButtonText}>
-                        Touch anywhere on the screen to play music!
+                        Player One
                     </Theme.Text>
                 </ThemeRipple>
+                {this.additional_players}
             </Theme.View>
         );
     }

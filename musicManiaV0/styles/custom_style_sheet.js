@@ -86,7 +86,7 @@ export const styles = createStyle({
   },
   playButton: {
     flex: 1,
-    margin: 20,
+    // margin: 20,
     height: '100%',
     width: '100%',
     backgroundColor: '@textColor',
@@ -137,6 +137,7 @@ export const styles = createStyle({
   },
   playButtonText: {
     fontSize: Typography.FONT_SIZE_90,
+    // lineHeight: 100,
     fontWeight: Typography.FONT_WEIGHT_BOLD,
     color: '@backgroundColor',
     textAlign: 'center',
