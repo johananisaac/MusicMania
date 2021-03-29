@@ -13,6 +13,7 @@ export default class SelectSongScreen extends Component {
   state = {
     playlist: [],
     playlistName: '',
+    EditPlaylist: 'False',
   }
   setName(playlistname){
     this.state.playlistName = playlistname;
@@ -61,6 +62,33 @@ export default class SelectSongScreen extends Component {
     this.state.playlist.splice(id, 1);
     this.forceUpdate();
   }
+  async deletePlaylist(destination){
+    let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
+    let playlists = JSON.parse(playlistsTemp);
+    let index = playlists.indexOf(this.state.playlistName);
+    playlists.splice(index, 1);
+    if(playlists == null){
+      await AsyncStorage.removeItem("Playlist_names");
+    }
+    else {
+      await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
+    }
+    this.props.nav.navigate(destination);
+  }
+
+  async componentDidMount(){
+    let is_edit = await AsyncStorage.getItem("EditPlaylist");
+    if(is_edit == "True"){
+      let name = await AsyncStorage.getItem("currentPlaylist");
+      this.state.playlistName = name;
+      this.state.EditPlaylist = "True";
+      // need to get the songs in playists
+      this.forceUpdate();
+    }
+    else{
+      // need to do
+    }
+  }
 
   render(){
     this.playlist = this.state.playlist.map((item, index) => 
@@ -72,6 +100,16 @@ export default class SelectSongScreen extends Component {
           </Theme.Text>
         </Button>
     );
+    this.showPlaylistName =
+      <ThemeTextInput style={CustomStyleSheet.styles.paragraphInput} 
+        placeholder={this.state.playlistName}
+        onChangeText={(text) => this.setName(text)}/> ;
+    if(this.state.EditPlaylist == "True"){
+      this.deleteButton = 
+        <SelectOption name='Delete Playlist' onPress={() => this.deletePlaylist('Home')}/>
+
+    }
+    
     return (
       <ScrollView>
       <Theme.View style={CustomStyleSheet.styles.container}>
@@ -81,7 +119,7 @@ export default class SelectSongScreen extends Component {
           </Theme.Text>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
-          <ThemeTextInput style={CustomStyleSheet.styles.paragraphInput} placeholder={"Playlist name here"} onChangeText={(text) => this.setName(text)}/>
+          {this.showPlaylistName}
         </Theme.View>
         <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
           Tap the songs below to add them to the current playlist!
@@ -111,6 +149,7 @@ export default class SelectSongScreen extends Component {
           <Theme.View>{this.playlist}</Theme.View>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.row}>
+          {this.deleteButton}
           <SelectOption name='Play' onPress={() => this.savePlaylist('Play')}/>
           <SelectOption name='Record your own audio' onPress={() => this.savePlaylist('Record Own Song')}/>
         </Theme.View>
