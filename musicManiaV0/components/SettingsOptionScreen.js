@@ -51,22 +51,8 @@ export default class SettingsOptionScreen extends Component {
 
   // update/remove players
   async updatePlayer() {
-      this.addToPlayersList(this.state.playerName.toString());
       try{
-        // await AsyncStorage.clear();
-        let playersTemp = await AsyncStorage.getItem("Players");
-        if(playersTemp == null){
-          let players = [];
-          players.push(this.state.playerName.toString());
-          await AsyncStorage.setItem("Players", JSON.stringify(players));
-        }
-        else{
-          let players = JSON.parse(playersTemp);
-          players.push(this.state.playerName.toString());
-          await AsyncStorage.setItem("Players", JSON.stringify(players));
-        }
         await AsyncStorage.setItem("Players", JSON.stringify(this.state.players));
-        // await AsyncStorage.clear();
       }
       catch (err){
         alert(err);
