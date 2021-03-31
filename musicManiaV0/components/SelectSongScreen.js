@@ -14,7 +14,9 @@ export default class SelectSongScreen extends Component {
     playlist: [],
     playlistName: '',
     EditPlaylist: 'False',
+    currentPlaylist: ''
   }
+
   setName(playlistname){
     this.state.playlistName = playlistname;
   }
@@ -23,23 +25,29 @@ export default class SelectSongScreen extends Component {
     if(this.state.playlistName == ''){
       alert("Name your playlist!");
     }
+    else if(this.state.playlist.length == 0){
+      alert("Playlist cannot be empty!");
+    }
     else{
       try{
+        if(this.state.EditPlaylist == "False" || this.state.playlistName != this.state.currentPlaylist) {
+          let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
+          if(playlistsTemp == null){
+            let playlists = [];
+            playlists.push(this.state.playlistName.toString());
+            await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
+          }
+          else{
+            let playlists = JSON.parse(playlistsTemp);
+            playlists.push(this.state.playlistName.toString());
+            await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
+          }
+        }
         // set current Playlist
         await AsyncStorage.setItem("Current-Playlist", this.state.playlistName.toString());
 
         // await AsyncStorage.clear();
-        let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
-        if(playlistsTemp == null){
-          let playlists = [];
-          playlists.push(this.state.playlistName.toString());
-          await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
-        }
-        else{
-          let playlists = JSON.parse(playlistsTemp);
-          playlists.push(this.state.playlistName.toString());
-          await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
-        }
+        
         await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
         // await AsyncStorage.clear();
         this.props.nav.navigate(destination);
@@ -62,6 +70,7 @@ export default class SelectSongScreen extends Component {
     this.state.playlist.splice(id, 1);
     this.forceUpdate();
   }
+
   async deletePlaylist(destination){
     let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
     let playlists = JSON.parse(playlistsTemp);
@@ -77,16 +86,19 @@ export default class SelectSongScreen extends Component {
   }
 
   async componentDidMount(){
-    let is_edit = await AsyncStorage.getItem("EditPlaylist");
-    if(is_edit == "True"){
+    this.state.EditPlaylist = await AsyncStorage.getItem("EditPlaylist");
+    if(this.state.EditPlaylist == "True"){
       let name = await AsyncStorage.getItem("currentPlaylist");
-      this.state.playlistName = name;
-      this.state.EditPlaylist = "True";
-      // need to get the songs in playists
+      this.state.currentPlaylist = name;
+      this.setName(name);
+      let current_playlist = await AsyncStorage.getItem(this.state.playlistName.toString());
+      this.state.playlist = JSON.parse(current_playlist);
       this.forceUpdate();
     }
     else{
-      // need to do
+      this.setName("");
+      this.state.playlist = [];
+      this.state.currentPlaylist = '';
     }
   }
 
