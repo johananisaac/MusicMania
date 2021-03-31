@@ -15,11 +15,6 @@ export default class SettingsOptionScreen extends Component {
     playerName: "",
   }
 
-  updateTheme(theme) {
-    CustomStyleSheet.styles.changeTheme(theme);
-    this.forceUpdate();
-  }
-
   setName(playername){
     this.state.playerName = playername;
   }
