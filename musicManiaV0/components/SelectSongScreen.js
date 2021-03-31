@@ -14,9 +14,8 @@ export default class SelectSongScreen extends Component {
     playlist: [],
     playlistName: '',
     EditPlaylist: 'False',
-    currentPlaylist: ''
+    oldPlaylistName: '',
   }
-
   setName(playlistname){
     this.state.playlistName = playlistname;
   }
@@ -30,7 +29,19 @@ export default class SelectSongScreen extends Component {
     }
     else{
       try{
-        if(this.state.EditPlaylist == "False" || this.state.playlistName != this.state.currentPlaylist) {
+        if(this.state.EditPlaylist == "True"){
+          let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
+          let playlists = JSON.parse(playlistsTemp);
+          let index = playlists.indexOf(this.state.oldPlaylistName);
+          playlists.splice(index, 1);
+          playlists.push(this.state.playlistName.toString());
+          await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
+        }
+        else{
+          // set current Playlist
+          await AsyncStorage.setItem("Current-Playlist", this.state.playlistName.toString());
+
+          // await AsyncStorage.clear();
           let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
           if(playlistsTemp == null){
             let playlists = [];
@@ -42,14 +53,9 @@ export default class SelectSongScreen extends Component {
             playlists.push(this.state.playlistName.toString());
             await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
           }
+          await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
+          // await AsyncStorage.clear();
         }
-        // set current Playlist
-        await AsyncStorage.setItem("Current-Playlist", this.state.playlistName.toString());
-
-        // await AsyncStorage.clear();
-        
-        await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
-        // await AsyncStorage.clear();
         this.props.nav.navigate(destination);
       }
       catch (err){
@@ -70,11 +76,10 @@ export default class SelectSongScreen extends Component {
     this.state.playlist.splice(id, 1);
     this.forceUpdate();
   }
-
   async deletePlaylist(destination){
     let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
     let playlists = JSON.parse(playlistsTemp);
-    let index = playlists.indexOf(this.state.playlistName);
+    let index = playlists.indexOf(this.state.oldPlaylistName);
     playlists.splice(index, 1);
     if(playlists == null){
       await AsyncStorage.removeItem("Playlist_names");
@@ -86,23 +91,21 @@ export default class SelectSongScreen extends Component {
   }
 
   async componentDidMount(){
-    this.state.EditPlaylist = await AsyncStorage.getItem("EditPlaylist");
-    if(this.state.EditPlaylist == "True"){
+    let is_edit = await AsyncStorage.getItem("EditPlaylist");
+    if(is_edit == "True"){
       let name = await AsyncStorage.getItem("currentPlaylist");
-      this.state.currentPlaylist = name;
-      this.setName(name);
-      let current_playlist = await AsyncStorage.getItem(this.state.playlistName.toString());
-      this.state.playlist = JSON.parse(current_playlist);
+      this.state.playlistName = name;
+      this.state.EditPlaylist = "True";
+      // need to get the songs in playists
       this.forceUpdate();
     }
     else{
-      this.setName("");
-      this.state.playlist = [];
-      this.state.currentPlaylist = '';
+      // need to do
     }
   }
 
   render(){
+    this.state.oldPlaylistName = this.state.playlistName;
     this.playlist = this.state.playlist.map((item, index) => 
         <Button style={CustomStyleSheet.styles.button} 
           key={index}
@@ -116,11 +119,11 @@ export default class SelectSongScreen extends Component {
       <ThemeTextInput style={CustomStyleSheet.styles.paragraphInput} 
         placeholder={this.state.playlistName}
         onChangeText={(text) => this.setName(text)}/> ;
-    if(this.state.EditPlaylist == "True"){
-      this.deleteButton = 
-        <SelectOption name='Delete Playlist' onPress={() => this.deletePlaylist('Home')}/>
+      if(this.state.EditPlaylist == "True"){
+        this.deleteButton = 
+          <SelectOption name='Delete Playlist' onPress={() => this.deletePlaylist('Home')}/>
 
-    }
+      };
     
     return (
       <ScrollView>
