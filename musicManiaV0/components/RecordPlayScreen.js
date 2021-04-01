@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { TouchableOpacity} from 'react-native';
+import { TouchableOpacity, AsyncStorage} from 'react-native';
 import { CustomStyleSheet } from '../styles';
 import Theme, {createThemedComponent } from 'react-native-theming';
 import { Audio } from 'expo-av';
@@ -54,6 +54,23 @@ export default function App() {
       playThroughEarpieceAndroid: false,
       staysActiveInBackground: true,
     });
+    let recCount = await AsyncStorage.getItem("Num_Recordings");
+    if(recCount == null) {
+      await AsyncStorage.setItem("Num_Recordings", "0");
+      recCount = 0;
+    }
+    else {
+      recCount = parseInt(recCount) + 1;
+      await AsyncStorage.setItem("Num_Recordings", String(recCount));
+    }
+    console.log(recCount);
+    FileSystem.copyAsync(
+    {
+      from: uri,
+      to: FileSystem.documentDirectory + String(recCount) + ".m4a"
+    });
+    let rec_loc = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory);
+    console.log(rec_loc);
     const { sound, status } = await recording.createNewLoadedSoundAsync();
     setSound(sound);
     setShowPlay(true);
@@ -69,15 +86,31 @@ export default function App() {
     }
   }
 
+  async function playRec() {
+    let filename = await AsyncStorage.getItem("Num_Recordings")
+    let doc_dir = await FileSystem.documentDirectory;
+    const sound = new Audio.Sound();
+     try {
+       await sound.loadAsync({ uri: doc_dir + filename + ".m4a" }); 
+       await sound.playAsync();
+       // Your sound is playing!
+     } catch (error) {
+       // An error occurred!
+     }
+    await sound.playAsync();
+  }
+
   const PlaySound = () => (
     <Theme.View style={CustomStyleSheet.styles.containerRow}>
         <Button
-          onPress={playSound}
+          onPress={playRec}
           style={CustomStyleSheet.styles.button}>
-          <Theme.Text style={CustomStyleSheet.styles.buttonText}>Play</Theme.Text>
+          <Theme.Text style={CustomStyleSheet.styles.buttonText}>Play Recording</Theme.Text>
         </Button>
     </Theme.View>
   )
+
+  
 
   return (
     <Theme.View style={CustomStyleSheet.styles.container}>
