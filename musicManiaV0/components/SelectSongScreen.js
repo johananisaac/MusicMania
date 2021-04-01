@@ -14,34 +14,28 @@ export default class SelectSongScreen extends Component {
     playlist: [],
     playlistName: '',
     EditPlaylist: 'False',
+    currentPlaylist: '',
     oldPlaylistName: '',
   }
+
   setName(playlistname){
     this.state.playlistName = playlistname;
   }
   // save playlist
   async savePlaylist(destination) {
+    let keywords = ['Playlist_names', 'EditPlaylist', 'currentPlaylist', 'Num_recordings', 'Players'];
     if(this.state.playlistName == ''){
       alert("Name your playlist!");
     }
     else if(this.state.playlist.length == 0){
       alert("Playlist cannot be empty!");
     }
+    else if(keywords.indexOf(this.state.playlistName) > -1){
+      alert("Invalid Playlist Name");
+    }
     else{
       try{
-        if(this.state.EditPlaylist == "True"){
-          let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
-          let playlists = JSON.parse(playlistsTemp);
-          let index = playlists.indexOf(this.state.oldPlaylistName);
-          playlists.splice(index, 1);
-          playlists.push(this.state.playlistName.toString());
-          await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
-        }
-        else{
-          // set current Playlist
-          await AsyncStorage.setItem("Current-Playlist", this.state.playlistName.toString());
-
-          // await AsyncStorage.clear();
+        if(this.state.EditPlaylist == "False") {
           let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
           if(playlistsTemp == null){
             let playlists = [];
@@ -53,9 +47,21 @@ export default class SelectSongScreen extends Component {
             playlists.push(this.state.playlistName.toString());
             await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
           }
-          await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
-          // await AsyncStorage.clear();
+        } else {
+          let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
+          let playlists = JSON.parse(playlistsTemp);
+          let index = playlists.indexOf(this.state.oldPlaylistName);
+          playlists.splice(index, 1);
+          playlists.push(this.state.playlistName.toString());
+          await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
         }
+        // set current Playlist
+        await AsyncStorage.setItem("currentPlaylist", this.state.playlistName.toString());
+
+        // await AsyncStorage.clear();
+        
+        await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
+        // await AsyncStorage.clear();
         this.props.nav.navigate(destination);
       }
       catch (err){
@@ -76,6 +82,7 @@ export default class SelectSongScreen extends Component {
     this.state.playlist.splice(id, 1);
     this.forceUpdate();
   }
+
   async deletePlaylist(destination){
     let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
     let playlists = JSON.parse(playlistsTemp);
@@ -91,16 +98,19 @@ export default class SelectSongScreen extends Component {
   }
 
   async componentDidMount(){
-    let is_edit = await AsyncStorage.getItem("EditPlaylist");
-    if(is_edit == "True"){
+    this.state.EditPlaylist = await AsyncStorage.getItem("EditPlaylist");
+    if(this.state.EditPlaylist == "True"){
       let name = await AsyncStorage.getItem("currentPlaylist");
-      this.state.playlistName = name;
-      this.state.EditPlaylist = "True";
-      // need to get the songs in playists
+      this.state.currentPlaylist = name;
+      this.setName(name);
+      let current_playlist = await AsyncStorage.getItem(this.state.playlistName.toString());
+      this.state.playlist = JSON.parse(current_playlist);
       this.forceUpdate();
     }
     else{
-      // need to do
+      this.setName("");
+      this.state.playlist = [];
+      this.state.currentPlaylist = '';
     }
   }
 
@@ -119,11 +129,11 @@ export default class SelectSongScreen extends Component {
       <ThemeTextInput style={CustomStyleSheet.styles.paragraphInput} 
         placeholder={this.state.playlistName}
         onChangeText={(text) => this.setName(text)}/> ;
-      if(this.state.EditPlaylist == "True"){
-        this.deleteButton = 
-          <SelectOption name='Delete Playlist' onPress={() => this.deletePlaylist('Home')}/>
+    if(this.state.EditPlaylist == "True"){
+      this.deleteButton = 
+        <SelectOption name='Delete Playlist' onPress={() => this.deletePlaylist('Home')}/>
 
-      };
+    }
     
     return (
       <ScrollView>
