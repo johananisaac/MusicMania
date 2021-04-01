@@ -471,27 +471,31 @@ export default class PlayButton extends Component {
     */
     render() {
         this.additional_players = this.state.additional_players.map((item, index) => 
+        <Theme.View style={CustomStyleSheet.styles.containerRow}>
             <ThemeRipple name={item} key={index} style={CustomStyleSheet.styles.playButton}
-            onPress={this.onPlayIn}
+            onPress={this.onPlay}
             //onPressOut={this.onPlayOut}
             rippleSize={150}>
                 <Theme.Text style={CustomStyleSheet.styles.playButtonText}>
                     Player {index+2}: {item}
                 </Theme.Text>
             </ThemeRipple> 
+            </Theme.View>
         );
         return (
             <Theme.View style={CustomStyleSheet.styles.container}>
+                <Theme.View style={CustomStyleSheet.styles.containerRow}>
                 <ThemeRipple style={CustomStyleSheet.styles.playButton}
                     onPress={this.onPlay}
                     //onPressIn={this.onPlayin}
                     //onPressOut={this.onPlayOut}
                     //onLongPress={this.onlongPlay}
                     rippleSize={150}>
-                    <Theme.Text style={CustomStyleSheet.styles.playButtonText}>
-                        Player One
+                    <Theme.Text key={1} style={CustomStyleSheet.styles.playButtonText}>
+                        Player 1: Bubba
                     </Theme.Text>
                 </ThemeRipple>
+                </Theme.View>
                 {this.additional_players}
             </Theme.View>
         );
