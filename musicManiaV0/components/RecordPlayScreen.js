@@ -7,6 +7,7 @@ import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
 
 const Button = createThemedComponent(TouchableOpacity);
+var sound = new Audio.Sound();
 
 // General purpose separator
 const Separator = () => (
@@ -15,7 +16,6 @@ const Separator = () => (
 
 export default function App() {
   const [recording, setRecording] = React.useState();
-  const [sound, setSound] = React.useState();
   const [showPlay, setShowPlay] = React.useState();
 
   var new_uri = '';
@@ -71,8 +71,6 @@ export default function App() {
     });
     let rec_loc = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory);
     console.log(rec_loc);
-    const { sound, status } = await recording.createNewLoadedSoundAsync();
-    setSound(sound);
     setShowPlay(true);
   }
 
@@ -89,7 +87,6 @@ export default function App() {
   async function playRec() {
     let filename = await AsyncStorage.getItem("Num_Recordings")
     let doc_dir = await FileSystem.documentDirectory;
-    const sound = new Audio.Sound();
      try {
        await sound.loadAsync({ uri: doc_dir + filename + ".m4a" }); 
        await sound.playAsync();
@@ -97,7 +94,7 @@ export default function App() {
      } catch (error) {
        // An error occurred!
      }
-    await sound.playAsync();
+    await sound.replayAsync();
   }
 
   const PlaySound = () => (
