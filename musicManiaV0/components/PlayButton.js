@@ -96,6 +96,10 @@ export default class PlayButton extends Component {
 
         this._onPlaybackStatusUpdate = async (playbackStatus) => {
             // loads correct note to play, iterates song note after playing
+            //let stop = await AsyncStorage.getItem("stopPlay");
+            //if(stop == "True"){
+            //    this.music.unloadAsync();
+            //}
             if (!playbackStatus.isLoaded) {
                 // temporary sample tester. 
                 if (this.state.currentMusic.name === "Sample") {
@@ -379,7 +383,7 @@ export default class PlayButton extends Component {
                     this.noteNum++;
                 }
                 
-                this.music.playAsync();
+                await this.music.playAsync();
             }
             //bugreporting
             if (playbackStatus.error) {
@@ -471,12 +475,12 @@ export default class PlayButton extends Component {
     */
     render() {
         this.additional_players = this.state.additional_players.map((item, index) => 
-        <Theme.View style={CustomStyleSheet.styles.containerRow}>
-            <ThemeRipple name={item} key={index} style={CustomStyleSheet.styles.playButton}
+        <Theme.View key={index+2} style={CustomStyleSheet.styles.containerRow}>
+            <ThemeRipple name={item} style={CustomStyleSheet.styles.playButton}
             onPress={this.onPlay}
             //onPressOut={this.onPlayOut}
             rippleSize={150}>
-                <Theme.Text style={CustomStyleSheet.styles.playButtonText}>
+                <Theme.Text  style={CustomStyleSheet.styles.playButtonText}>
                     Player {index+2}: {item}
                 </Theme.Text>
             </ThemeRipple> 
@@ -484,14 +488,14 @@ export default class PlayButton extends Component {
         );
         return (
             <Theme.View style={CustomStyleSheet.styles.container}>
-                <Theme.View style={CustomStyleSheet.styles.containerRow}>
+                <Theme.View key={1} style={CustomStyleSheet.styles.containerRow}>
                 <ThemeRipple style={CustomStyleSheet.styles.playButton}
                     onPress={this.onPlay}
                     //onPressIn={this.onPlayin}
                     //onPressOut={this.onPlayOut}
                     //onLongPress={this.onlongPlay}
                     rippleSize={150}>
-                    <Theme.Text key={1} style={CustomStyleSheet.styles.playButtonText}>
+                    <Theme.Text style={CustomStyleSheet.styles.playButtonText}>
                         Player 1: Bubba
                     </Theme.Text>
                 </ThemeRipple>

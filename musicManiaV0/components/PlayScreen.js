@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Text, TouchableOpacity} from 'react-native';
+import { Text, TouchableOpacity, AsyncStorage } from 'react-native';
 import { CustomStyleSheet } from '../styles';
 import PlayButton from './PlayButton';
 import Theme, {createThemedComponent } from 'react-native-theming';
@@ -17,7 +17,10 @@ export default class PlayScreen extends Component {
     return (
       <Theme.View style={CustomStyleSheet.styles.container}>
         <Button
-            onPress={() => this.props.nav.navigate('Home')}
+            onPress={() => {
+              //AsyncStorage.setItem("stopPlay", "True");
+              this.props.nav.navigate('Home')
+            }}
             style={CustomStyleSheet.styles.buttonShort}>
             <Theme.Text style={CustomStyleSheet.styles.shortButtonText}>Back to home!</Theme.Text>
         </Button>
