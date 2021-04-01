@@ -1,7 +1,5 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
+ * This is a test file for Music Mania views.
  */
 
  import React from 'react';
