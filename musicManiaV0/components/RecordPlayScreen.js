@@ -46,7 +46,7 @@ export default function App() {
     const uri = recording.getURI();
     console.log('Recording stopped and stored at', uri);
     await Audio.setAudioModeAsync({
-      allowsRecordingIOS: false,
+      allowsRecordingIOS: true,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
