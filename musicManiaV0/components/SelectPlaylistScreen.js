@@ -3,11 +3,34 @@ import { Component } from 'react';
 import { ScrollView, AsyncStorage } from 'react-native';
 import SelectOption from './SelectOption';
 import { CustomStyleSheet } from '../styles';
-import Theme, {createThemedComponent } from 'react-native-theming';
+import Theme from 'react-native-theming';
 
 export default class SelectPlaylistScreen extends Component {
+  constructor(props){
+    super(props);
+    this.componentRef = React.createRef();
+    this.makeTimer()
+  }
+
   state = {
     playlist_names: [],
+    number:0,
+  }
+
+  referComponentByRef = () => {
+    this.componentRef.current.highlight();
+  }
+
+  makeTimer(){
+    setInterval(() => {
+      let rand = Math.floor(Math.random() * 10) + 1
+        this.setState({number: rand})
+        this.componentRef.current.highlight();
+        // this.highlightElement((this.current_selection + 1)%this.playlist_names.length);
+        // this.setState({
+        //   current_selection : (this.current_selection + 1)%this.playlist_names.length
+        // });
+    }, 2000) // Make this customizable, 2 seconds
   }
 
   async getName() {
@@ -64,6 +87,11 @@ export default class SelectPlaylistScreen extends Component {
         <Theme.View>
           {this.playlist_names}
           <SelectOption name='Create New Playlist' onPress={() =>  this.newPlaylist('Playlist')}/>
+          <SelectOption ref={node => this.componentRef.current = node} name='Tester' onPress={() =>  this.newPlaylist('Playlist')}/>
+          {/* <SelectOption name='Change Color' onPress={this.referComponentByRef}/> */}
+          <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
+          {this.state.number}
+          </Theme.Text>
         </Theme.View>
       </Theme.View>
       </ScrollView>
