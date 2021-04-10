@@ -4,38 +4,41 @@ import { ScrollView, AsyncStorage } from 'react-native';
 import SelectOption from './SelectOption';
 import { CustomStyleSheet } from '../styles';
 import Theme from 'react-native-theming';
+import { navigation } from '@react-navigation/native';
 
 export default class SelectPlaylistScreen extends Component {
   constructor(props){
     super(props);
-    this.componentRef = React.createRef();
-    this.componentRef2 = React.createRef();
+    this.references = [];
+    for (var i = 0; i < 10; i++) { // Max references, must be greater than or equal to max number of playlists
+      this.references.push(React.createRef());
+    }
     this.intervalID = 0;
   }
 
   state = {
     playlist_names: [],
-    number:0,
     current_selection: 0,
-  }
-
-  referComponentByRef = () => {
-    this.componentRef.current.highlight();
-    this.componentRef2.current.highlight();
   }
 
   makeTimer(){
     this.intervalID = setInterval(() => {
-        this.setState({current_selection: this.state.current_selection+1})
-        console.log(this.componentRef);
-        if (this.componentRef.current != null){
-          this.componentRef.current.highlight();
-          this.componentRef2.current.highlight();
+        // console.log(this.state.playlist_names.length);
+        if (this.state.current_selection+1 >= this.state.playlist_names.length + 1){ // current number of songs + 1 for the create new playlist button
+          if (this.references[this.state.current_selection].current != null){
+            this.references[this.state.current_selection].current.highlight();
+            this.references[0].current.highlight();
+          }
+          this.setState({current_selection: 0});
+        } 
+        else {
+          if (this.references[this.state.current_selection].current != null){
+            this.references[this.state.current_selection].current.highlight();
+            this.references[this.state.current_selection+1].current.highlight();
+          }
+          this.setState({current_selection: this.state.current_selection+1});
         }
-        // this.highlightElement((this.current_selection + 1)%this.playlist_names.length);
-        // this.setState({
-        //   current_selection : (this.current_selection + 1)%this.playlist_names.length
-        // });
+        console.log("current selection: " + this.state.current_selection);
     }, 2000) // Make this customizable, 2 seconds
   }
 
@@ -79,15 +82,20 @@ export default class SelectPlaylistScreen extends Component {
     this.getName();
     this.forceUpdate();
     this.makeTimer();
+    this.references[0].current.highlight();
+    this._unsubscribe = this.props.nav.addListener('blur', () => {
+      clearInterval(this.intervalID);
+    });
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalID);
+    this._unsubscribe();
   }
 
   render(){
     this.playlist_names = this.state.playlist_names.map((item, index) => 
-        <SelectOption name={item} key={index} onPress={() => this.editPlaylist('Playlist', item)}/>
+        <SelectOption ref={node => this.references[index+1].current = node} name={item} key={index} onPress={() => this.editPlaylist('Playlist', item)}/>
     );
     return (
       <ScrollView>
@@ -96,10 +104,10 @@ export default class SelectPlaylistScreen extends Component {
           Choose a playlist to edit, or create a new one!
         </Theme.Text>
         <Theme.View>
+          {/* <SelectOption ref={node => this.references[1].current = node} name='Tester2' /> */}
           {this.playlist_names}
-          <SelectOption name='Create New Playlist' onPress={() =>  this.newPlaylist('Playlist')}/>
-          <SelectOption ref={node => this.componentRef.current = node} name='Tester' />
-          <SelectOption ref={node => this.componentRef2.current = node} name='Tester2' />
+          <SelectOption ref={node => this.references[0].current = node} name='Create New Playlist' onPress={() =>  this.newPlaylist('Playlist')}/>
+          {/* <SelectOption ref={node => this.references[0].current = node} name='Tester' /> */}
           <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
           {this.state.current_selection}
           </Theme.Text>
