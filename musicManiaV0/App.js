@@ -15,6 +15,7 @@ import RecordPlayScreen from './components/RecordPlayScreen';
 import PlayScreen from './components/PlayScreen';
 import SelectPlaylistScreen from './components/SelectPlaylistScreen';
 import SelectSongScreen from './components/SelectSongScreen';
+import YoutubeScreen from './components/YoutubeScreen';
 import RecordOwnAudioScreen from './components/RecordOwnAudioScreen';
 import SettingsScreen from './components/SettingsScreen';
 import SettingsOptionScreen from './components/SettingsOptionScreen';
@@ -75,6 +76,14 @@ function SelectSongNavScreen({ navigation }) {
   );
 }
 
+function YoutubeNavScreen({ navigation }) {
+  return (
+    <Theme.View style={CustomStyleSheet.styles.container}>
+      <YoutubeScreen nav={navigation}/>
+    </Theme.View>
+  );
+}
+
 function SettingsNavScreen({ navigation }) {
   return (
     <Theme.View style={CustomStyleSheet.styles.containerRow}>
@@ -126,6 +135,7 @@ export default function App() {
         <Stack.Screen name="Playlist Options" component={SelectPlaylistNavScreen} />
         <Stack.Screen name="Playlist" component={SelectSongNavScreen} />
         <Stack.Screen name="Record Own Song" component={RecordOwnAudioNavScreen} />
+        <Stack.Screen name="Youtube" component={YoutubeNavScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -5,7 +5,6 @@ import { CustomStyleSheet } from '../styles';
 import Theme, {createThemedComponent } from 'react-native-theming';
 
 const Button = createThemedComponent(TouchableOpacity);
-
  
 export default class SelectOption extends Component {
   state = {

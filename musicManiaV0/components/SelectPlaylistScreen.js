@@ -4,7 +4,6 @@ import { ScrollView, AsyncStorage } from 'react-native';
 import SelectOption from './SelectOption';
 import { CustomStyleSheet } from '../styles';
 import Theme from 'react-native-theming';
-import { navigation } from '@react-navigation/native';
 
 export default class SelectPlaylistScreen extends Component {
   constructor(props){
@@ -24,7 +23,7 @@ export default class SelectPlaylistScreen extends Component {
   makeTimer(){
     this.intervalID = setInterval(() => {
         // console.log(this.state.playlist_names.length);
-        if (this.state.current_selection+1 >= this.state.playlist_names.length + 1){ // current number of songs + 1 for the create new playlist button
+        if (this.state.current_selection+1 >= this.state.playlist_names.length + 2){ // current number of songs + 2 for the create new playlist button
           if (this.references[this.state.current_selection].current != null){
             this.references[this.state.current_selection].current.highlight();
             this.references[0].current.highlight();
@@ -95,7 +94,7 @@ export default class SelectPlaylistScreen extends Component {
 
   render(){
     this.playlist_names = this.state.playlist_names.map((item, index) => 
-        <SelectOption ref={node => this.references[index+1].current = node} name={item} key={index} onPress={() => this.editPlaylist('Playlist', item)}/>
+        <SelectOption ref={node => this.references[index+2].current = node} name={item} key={index} onPress={() => this.editPlaylist('Playlist', item)}/>
     );
     return (
       <ScrollView>
@@ -104,10 +103,9 @@ export default class SelectPlaylistScreen extends Component {
           Choose a playlist to edit, or create a new one!
         </Theme.Text>
         <Theme.View>
-          {/* <SelectOption ref={node => this.references[1].current = node} name='Tester2' /> */}
+          <SelectOption ref={node => this.references[1].current = node} name='Create New Youtube Playlist' onPress={() =>  this.newPlaylist('Youtube')}/>
           {this.playlist_names}
           <SelectOption ref={node => this.references[0].current = node} name='Create New Playlist' onPress={() =>  this.newPlaylist('Playlist')}/>
-          {/* <SelectOption ref={node => this.references[0].current = node} name='Tester' /> */}
           <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
           {this.state.current_selection}
           </Theme.Text>
