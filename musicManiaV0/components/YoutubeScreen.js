@@ -5,6 +5,8 @@ import SelectOption from './SelectOption';
 import { TextInput } from 'react-native-gesture-handler';
 import { CustomStyleSheet } from '../styles';
 import Theme, {createThemedComponent } from 'react-native-theming';
+import YoutubePlayer from "react-native-youtube-iframe";
+import { WebView } from 'react-native-webview';
 
 const Button = createThemedComponent(TouchableOpacity);
 const ThemeTextInput = createThemedComponent(TextInput);
@@ -16,64 +18,21 @@ export default class YoutubeScreen extends Component {
     EditPlaylist: 'False',
     currentPlaylist: '',
     oldPlaylistName: '',
+    currentID: '',
   }
-
+  // setting the playlist title
   setName(playlistname){
     this.state.playlistName = playlistname;
   }
-  // save playlist
-  async savePlaylist(destination) {
-    let keywords = ['Playlist_names', 'EditPlaylist', 'currentPlaylist', 'Num_recordings', 'Players'];
-    if(this.state.playlistName == ''){
-      alert("Name your playlist!");
-    }
-    else if(this.state.playlist.length == 0){
-      alert("Playlist cannot be empty!");
-    }
-    else if(keywords.indexOf(this.state.playlistName) > -1){
-      alert("Invalid Playlist Name");
-    }
-    else{
-      try{
-        if(this.state.EditPlaylist == "False") {
-          let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
-          if(playlistsTemp == null){
-            let playlists = [];
-            playlists.push(this.state.playlistName.toString());
-            await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
-          }
-          else{
-            let playlists = JSON.parse(playlistsTemp);
-            playlists.push(this.state.playlistName.toString());
-            await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
-          }
-        } else {
-          let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
-          let playlists = JSON.parse(playlistsTemp);
-          let index = playlists.indexOf(this.state.oldPlaylistName);
-          playlists.splice(index, 1);
-          playlists.push(this.state.playlistName.toString());
-          await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
-        }
-        // set current Playlist
-        await AsyncStorage.setItem("currentPlaylist", this.state.playlistName.toString());
-
-        // await AsyncStorage.clear();
-        
-        await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
-        // await AsyncStorage.clear();
-        this.props.nav.navigate(destination);
-      }
-      catch (err){
-        alert(err);
-      }
-    }
+  // setting the ID
+  setID(ID){
+    this.state.currentID = ID;
   }
 
-  addToPlaylist(name) {
+  addToPlaylist() {
     if(this.state.playlist.length < 5){
       this.setState({
-        playlist: [...this.state.playlist, name]
+        playlist: [...this.state.playlist, this.state.currentID]
       });
     }
   }
@@ -84,16 +43,7 @@ export default class YoutubeScreen extends Component {
   }
 
   async deletePlaylist(destination){
-    let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
-    let playlists = JSON.parse(playlistsTemp);
-    let index = playlists.indexOf(this.state.oldPlaylistName);
-    playlists.splice(index, 1);
-    if(playlists == null){
-      await AsyncStorage.removeItem("Playlist_names");
-    }
-    else {
-      await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
-    }
+    
     this.props.nav.navigate(destination);
   }
 
@@ -116,14 +66,20 @@ export default class YoutubeScreen extends Component {
 
   render(){
     this.state.oldPlaylistName = this.state.playlistName;
-    this.playlist = this.state.playlist.map((item, index) => 
+    this.playlist = this.state.playlist.map((item, index) =>
+      <Theme.View>
         <Button style={CustomStyleSheet.styles.button} 
           key={index}
           onPress={() => this.removeFromPlaylist(index)}>
           <Theme.Text style={CustomStyleSheet.styles.buttonTextMedium}>
-            {item}
+            Remove
           </Theme.Text>
         </Button>
+        <YoutubePlayer
+          height={300}
+          videoId={item}
+        />
+      </Theme.View>
     );
     this.showPlaylistName =
       <ThemeTextInput style={CustomStyleSheet.styles.paragraphInput} 
@@ -133,7 +89,7 @@ export default class YoutubeScreen extends Component {
       this.deleteButton = 
         <SelectOption name='Delete Playlist' onPress={() => this.deletePlaylist('Home')}/>
 
-    }
+    };
     
     return (
       <ScrollView>
@@ -148,15 +104,22 @@ export default class YoutubeScreen extends Component {
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
           <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
-            Youtube Playlist ID:
+            Youtube Video ID:
           </Theme.Text>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
-          {this.showPlaylistName}
+          <ThemeTextInput style={CustomStyleSheet.styles.paragraphInput} 
+            placeholder="Type Video ID here!"
+            onChangeText={(text) => this.setID(text)}/>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.row}>
           {this.deleteButton}
-          <SelectOption name='Play' onPress={() => this.savePlaylist('Play')}/>
+          <SelectOption name='Add' onPress={() => this.addToPlaylist()}/>
+          <SelectOption name='Play' onPress={() => this.props.nav.navigate('Play')}/>
+        </Theme.View>
+        <Theme.View style={CustomStyleSheet.styles.fullWidth}>
+          <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>Playlist</Theme.Text>
+          <Theme.View>{this.playlist}</Theme.View>
         </Theme.View>
       </Theme.View>
       </ScrollView>
