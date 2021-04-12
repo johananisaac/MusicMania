@@ -61,7 +61,15 @@ export default class PlayButton extends Component {
 
     state = {
         additional_players: [],
+        color: 'red',
     }
+
+    getColor(){
+        var randomColor = require('randomcolor'); // import the script
+        this.setState({
+            color: randomColor({luminosity: 'light'}),
+        });
+    } 
 
     async getAdditionalPlayers() {
         try{
@@ -78,6 +86,7 @@ export default class PlayButton extends Component {
     }
 
     async componentDidMount() {
+        this.getColor();
         this.getAdditionalPlayers();
         this.setState({
             currentMusic: TwinkleTwinkle,
@@ -477,7 +486,11 @@ export default class PlayButton extends Component {
         this.additional_players = this.state.additional_players.map((item, index) => 
         <Theme.View key={index+2} style={CustomStyleSheet.styles.containerRow}>
             <ThemeRipple name={item} style={CustomStyleSheet.styles.playButton}
+            rippleColor={this.state.color}
+            rippleDuration={1200} 
+            rippleOpacity={0.87} 
             onPress={this.onPlay}
+            onPressOut={() => this.getColor()}
             //onPressOut={this.onPlayOut}
             rippleSize={150}>
                 <Theme.Text  style={CustomStyleSheet.styles.playButtonText}>
@@ -490,7 +503,11 @@ export default class PlayButton extends Component {
             <Theme.View style={CustomStyleSheet.styles.container}>
                 <Theme.View key={1} style={CustomStyleSheet.styles.containerRow}>
                 <ThemeRipple style={CustomStyleSheet.styles.playButton}
+                    rippleColor={this.state.color} 
+                    rippleDuration={1200} 
+                    rippleOpacity={0.87} 
                     onPress={this.onPlay}
+                    onPressOut={() => this.getColor()}
                     //onPressIn={this.onPlayin}
                     //onPressOut={this.onPlayOut}
                     //onLongPress={this.onlongPlay}

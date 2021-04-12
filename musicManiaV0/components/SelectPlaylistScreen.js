@@ -104,10 +104,9 @@ export default class SelectPlaylistScreen extends Component {
         </Theme.Text>
         <Theme.View>
           {this.playlist_names}
-          <SelectOption ref={node => this.references[1].current = node} name='Create New Youtube Playlist' onPress={() =>  this.newPlaylist('Youtube')}/>
+          <SelectOption ref={node => this.references[1].current = node} name='New Youtube Playlist' onPress={() =>  this.newPlaylist('Youtube')}/>
           <SelectOption ref={node => this.references[0].current = node} name='Create New Playlist' onPress={() =>  this.newPlaylist('Playlist')}/>
           <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
-          {this.state.current_selection}
           </Theme.Text>
         </Theme.View>
       </Theme.View>
