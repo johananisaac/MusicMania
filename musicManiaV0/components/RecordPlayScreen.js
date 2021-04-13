@@ -2,11 +2,13 @@ import * as React from 'react';
 import { Component } from 'react';
 import { TouchableOpacity, AsyncStorage} from 'react-native';
 import { CustomStyleSheet } from '../styles';
+import { TextInput } from 'react-native-gesture-handler';
 import Theme, {createThemedComponent } from 'react-native-theming';
 import { Audio, AVPlaybackStatus } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
 
 const Button = createThemedComponent(TouchableOpacity);
+const ThemeTextInput = createThemedComponent(TextInput);
 
 // General purpose separator
 const Separator = () => (
@@ -17,6 +19,7 @@ export default function App() {
 
   const [recording, setRecording] = React.useState();
   const [showPlay, setShowPlay] = React.useState();
+  const [recName, setRecName] = React.useState();
 
   async function startRecording() {
     try {
@@ -58,8 +61,7 @@ export default function App() {
       recCount = 0;
     }
     else {
-      recCount = parseInt(recCount) + 1;
-      await AsyncStorage.setItem("Num_Recordings", String(recCount));
+      recCount = parseInt(recCount);
     }
     console.log(recCount);
     FileSystem.copyAsync(
@@ -87,20 +89,19 @@ export default function App() {
     }
   }
 
-  const PlaySound = () => (
-    <Theme.View style={CustomStyleSheet.styles.containerRow}>
-        <Button
-          onPress={playRec}
-          style={CustomStyleSheet.styles.button}>
-          <Theme.Text style={CustomStyleSheet.styles.buttonText}>Play Recording</Theme.Text>
-        </Button>
-    </Theme.View>
-  )
+  async function deleteRec() {
+    let filename = await AsyncStorage.getItem("Num_Recordings");
+    let doc_dir = await FileSystem.documentDirectory;
+    await FileSystem.deleteAsync(doc_dir + filename + ".caf");
+    setShowPlay(false);
+    let rec_loc = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory);
+    console.log(rec_loc);
+  }
 
-  return (
+  const ShowRecord = () => (
     <Theme.View style={CustomStyleSheet.styles.container}>
       <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
-        {recording ? 'Stop Recording' : 'Start Recording' }
+          {recording ? 'Stop Recording' : 'Start Recording' }
       </Theme.Text>
       <Theme.View style={CustomStyleSheet.styles.containerRow}>
         <Button
@@ -109,7 +110,40 @@ export default function App() {
           <Theme.Text style={CustomStyleSheet.styles.buttonText}>Record your song!</Theme.Text>
         </Button>
       </Theme.View>
-      { showPlay ? <PlaySound /> : null }
+    </Theme.View>
+  )
+
+  const PlaySound = () => (
+    <Theme.View style={CustomStyleSheet.styles.container}>
+      <ThemeTextInput style={CustomStyleSheet.styles.paragraphInput} 
+        placeholder="Name your song!"/>
+      <Separator />
+      <Theme.View style={CustomStyleSheet.styles.containerRow}>
+          <Button
+            onPress={playRec}
+            style={CustomStyleSheet.styles.button}>
+            <Theme.Text style={CustomStyleSheet.styles.buttonText}>Play</Theme.Text>
+          </Button>
+      </Theme.View>
+      <Separator />
+      <Theme.View style={CustomStyleSheet.styles.containerRow}>
+          <Button
+            onPress={playRec}
+            style={CustomStyleSheet.styles.button}>
+            <Theme.Text style={CustomStyleSheet.styles.buttonText}>Save</Theme.Text>
+          </Button>
+          <Button
+            onPress={deleteRec}
+            style={CustomStyleSheet.styles.button}>
+            <Theme.Text style={CustomStyleSheet.styles.buttonText}>Delete</Theme.Text>
+          </Button>
+      </Theme.View>
+    </Theme.View>
+  )
+
+  return (
+    <Theme.View style={CustomStyleSheet.styles.container}>
+      { showPlay ? <PlaySound /> : <ShowRecord /> }
     </Theme.View>
   );
 }
