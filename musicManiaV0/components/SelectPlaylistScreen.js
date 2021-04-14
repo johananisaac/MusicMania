@@ -45,11 +45,23 @@ export default class SelectPlaylistScreen extends Component {
     try{
       //await AsyncStorage.clear();
       let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
-      if(playlistsTemp != null){
-        this.setState({
-          playlist_names: JSON.parse(playlistsTemp),
-        });
+      let playlists1 = JSON.parse(playlistsTemp);
+      let playlistsTemp2 = await AsyncStorage.getItem("Youtube_Playlist_names");
+      let playlists2 = JSON.parse(playlistsTemp2);
+      let total_playlists = [];
+      if(playlists1 != null && playlists2 == null){
+        total_playlists = playlists1;
       }
+      else if(playlists2 != null && playlists1 == null){
+        total_playlists = playlists2;
+      }
+      else if(playlists2 != null && playlists1 != null){
+        total_playlists = playlists1.concat(playlists2);
+      }
+      
+      this.setState({
+        playlist_names: total_playlists,
+      });
     }
     catch(err){
       alert(err);
