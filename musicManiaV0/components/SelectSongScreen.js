@@ -128,6 +128,7 @@ export default class SelectSongScreen extends Component {
     this.showPlaylistName =
       <ThemeTextInput style={CustomStyleSheet.styles.paragraphInput} 
         placeholder={this.state.playlistName}
+        placeholderTextColor= '#808080'
         onChangeText={(text) => this.setName(text)}/> ;
     if(this.state.EditPlaylist == "True"){
       this.deleteButton = 

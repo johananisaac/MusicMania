@@ -16,6 +16,7 @@ export default class PlayScreen extends Component {
   render(){
     return (
       <Theme.View style={CustomStyleSheet.styles.container}>
+        <Theme.View style={CustomStyleSheet.styles.containerRow, {height: '10%'}}>
         <Button
             onPress={() => {
               //AsyncStorage.setItem("stopPlay", "True");
@@ -24,6 +25,7 @@ export default class PlayScreen extends Component {
             style={CustomStyleSheet.styles.buttonShort}>
             <Theme.Text style={CustomStyleSheet.styles.shortButtonText}>Back to home!</Theme.Text>
         </Button>
+        </Theme.View>
         <PlayButton />
         <Separator />
       </Theme.View>

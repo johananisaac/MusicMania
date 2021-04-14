@@ -124,18 +124,72 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Tutorial"> 
-        {/* <Stack.Screen name="Test" component={TestNavScreen} /> */}
-        <Stack.Screen name="Tutorial" component={TutorialNavScreen} />
-        <Stack.Screen name="Home" component={HomeNavScreen} />
-        <Stack.Screen name="Settings" component={SettingsNavScreen} />
-        <Stack.Screen name="Settings Options" component={SettingsOptionNavScreen} />
-        <Stack.Screen name="Play Options" component={PlayOptionsNavScreen} />
-        <Stack.Screen name="Record Play" component={RecordPlayNavScreen} />
-        <Stack.Screen name="Play" component={PlayNavScreen} />
-        <Stack.Screen name="Playlist Options" component={SelectPlaylistNavScreen} />
-        <Stack.Screen name="Playlist" component={SelectSongNavScreen} />
-        <Stack.Screen name="Record Own Song" component={RecordOwnAudioNavScreen} />
-        <Stack.Screen name="Youtube" component={YoutubeNavScreen} />
+        <Stack.Screen name="Tutorial" component={TutorialNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
+        <Stack.Screen name="Home" component={HomeNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
+        <Stack.Screen name="Settings" component={SettingsNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
+        <Stack.Screen name="Settings Options" component={SettingsOptionNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
+        <Stack.Screen name="Play Options" component={PlayOptionsNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
+        <Stack.Screen name="Record Play" component={RecordPlayNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
+        <Stack.Screen name="Play" component={PlayNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
+        <Stack.Screen name="Playlist Options" component={SelectPlaylistNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
+        <Stack.Screen name="Playlist" component={SelectSongNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
+        <Stack.Screen name="Record Own Song" component={RecordOwnAudioNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
+        <Stack.Screen name="Youtube" component={YoutubeNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

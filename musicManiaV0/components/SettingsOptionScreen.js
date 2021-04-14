@@ -121,7 +121,7 @@ export default class SettingsOptionScreen extends Component {
           </Theme.Text>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
-          <ThemeTextInput style={CustomStyleSheet.styles.paragraphInput} placeholder={"Player name here"} onChangeText={(text) => this.setName(text)}/>
+          <ThemeTextInput style={CustomStyleSheet.styles.paragraphInput} placeholder={"Player name here"} placeholderTextColor= '#808080' onChangeText={(text) => this.setName(text)}/>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
           <SelectOption name='Save and Play' onPress={() => this.savePlayer('Play')}/>

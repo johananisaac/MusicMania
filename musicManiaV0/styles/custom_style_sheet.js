@@ -109,7 +109,9 @@ export const styles = createStyle({
     justifyContent: 'center',
   },
   buttonShort: {
-    height: '5%',
+    // height: '5%',
+    flex: 1,
+    flexDirection: 'row',
     width: '100%',
     backgroundColor: '@textColor',
     borderColor: '@backgroundColor',
