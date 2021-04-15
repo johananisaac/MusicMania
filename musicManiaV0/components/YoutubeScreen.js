@@ -43,7 +43,16 @@ export default class YoutubeScreen extends Component {
   }
   // delete playlist
   async deletePlaylist(destination){ 
-    // 
+    let playlistsTemp = await AsyncStorage.getItem("Youtube_Playlist_names");
+    let playlists = JSON.parse(playlistsTemp);
+    let index = playlists.indexOf(this.state.oldPlaylistName);
+    playlists.splice(index, 1);
+    if(playlists == null){
+      await AsyncStorage.removeItem("Youtube_Playlist_names");
+    }
+    else {
+      await AsyncStorage.setItem("Youtube_Playlist_names", JSON.stringify(playlists));
+    }
     this.props.nav.navigate(destination);
   }
 
