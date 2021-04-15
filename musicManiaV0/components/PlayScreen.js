@@ -16,7 +16,7 @@ export default class PlayScreen extends Component {
   render(){
     return (
       <Theme.View style={CustomStyleSheet.styles.container}>
-        <Theme.View style={CustomStyleSheet.styles.containerRow, {height: '10%'}}>
+        <Theme.View style={CustomStyleSheet.styles.containerRow, {flex: .15}}>
         <Button
             onPress={() => {
               //AsyncStorage.setItem("stopPlay", "True");

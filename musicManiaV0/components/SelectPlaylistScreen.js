@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { ScrollView, AsyncStorage } from 'react-native';
+import { TouchableOpacity, ScrollView, AsyncStorage } from 'react-native';
 import SelectOption from './SelectOption';
 import { CustomStyleSheet } from '../styles';
-import Theme from 'react-native-theming';
+import Theme, {createThemedComponent } from 'react-native-theming';
+
+const Button = createThemedComponent(TouchableOpacity);
 
 export default class SelectPlaylistScreen extends Component {
   constructor(props){
@@ -13,32 +15,41 @@ export default class SelectPlaylistScreen extends Component {
       this.references.push(React.createRef());
     }
     this.intervalID = 0;
+    this.interval_active = null;
   }
 
   state = {
     playlist_names: [],
+    accessible_select_active: null,
     current_selection: 0,
   }
 
   makeTimer(){
-    this.intervalID = setInterval(() => {
-        // console.log(this.state.playlist_names.length);
-        if (this.state.current_selection+1 >= this.state.playlist_names.length + 2){ // current number of songs + 2 for the create new playlist button
-          if (this.references[this.state.current_selection].current != null){
-            this.references[this.state.current_selection].current.highlight();
-            this.references[0].current.highlight();
+      if (!this.interval_active) {
+        this.interval_active = true;
+        this.intervalID = setInterval(() => {
+          if (!this.state.accessible_select_active) {
+          // console.log(this.state.playlist_names.length);
+          if (this.state.current_selection+1 >= this.state.playlist_names.length + 2){ // current number of songs + 2 for the create new playlist button
+            if (this.references[this.state.current_selection].current != null){
+              this.references[this.state.current_selection].current.highlight();
+              this.references[0].current.highlight();
+            }
+            this.setState({current_selection: 0});
+          } 
+          else {
+            if (this.references[this.state.current_selection].current != null){
+              this.references[this.state.current_selection].current.highlight();
+              this.references[this.state.current_selection+1].current.highlight();
+            }
+            this.setState({current_selection: this.state.current_selection+1});
           }
-          this.setState({current_selection: 0});
-        } 
-        else {
-          if (this.references[this.state.current_selection].current != null){
-            this.references[this.state.current_selection].current.highlight();
-            this.references[this.state.current_selection+1].current.highlight();
-          }
-          this.setState({current_selection: this.state.current_selection+1});
+          console.log("current selection: " + this.state.current_selection);
+        } else {
+          this.references[0].current.removeHighlight();
         }
-        console.log("current selection: " + this.state.current_selection);
-    }, 2000) // Make this customizable, 2 seconds
+      }, 2000) // Make this customizable, 2 seconds
+    }
   }
 
   async getName() {
@@ -68,6 +79,21 @@ export default class SelectPlaylistScreen extends Component {
     }
   }
 
+  // get accessible select state
+  async getAccessibleSelectState() {
+    try{
+      let settingsTemp = await AsyncStorage.getItem("AccessibleSelect");
+      if(settingsTemp != null){
+        this.setState({
+          accessible_select_active: JSON.parse(settingsTemp),
+        });
+      }
+    }
+    catch(err){
+      alert(err);
+    }
+  }
+
   async editPlaylist(destination, name) {
     try{
       await AsyncStorage.setItem("EditPlaylist", "True");
@@ -89,19 +115,54 @@ export default class SelectPlaylistScreen extends Component {
     this.props.nav.navigate(destination);
   }
 
+  select(){
+    this.references[this.state.current_selection].current.props.onPress();
+  }
+
   componentDidMount(){
     this.getName();
     this.forceUpdate();
-    this.makeTimer();
-    this.references[0].current.highlight();
-    this._unsubscribe = this.props.nav.addListener('blur', () => {
-      clearInterval(this.intervalID);
-    });
+    this.getAccessibleSelectState();
+
+    if (!this.state.accessible_select_active) {
+      this.references[0].current.highlight();
+      this._unsubscribe = this.props.nav.addListener('blur', () => {
+        console.log("Stop timer from listener");
+        this.interval_active = false;
+        clearInterval(this.intervalID);
+      });
+      this._unsubscribe2 = this.props.nav.addListener('focus', () => {
+        console.log("Start timer from listener" + this.interval_active);
+        this.makeTimer();
+      });
+    }
+    
+    // this._unsubscribe = this.props.nav.addListener('blur', () => {
+    //   console.log("Stop timer from listener");
+    //   this.interval_active = false;
+    //   clearInterval(this.intervalID);
+    // });
+    // this._unsubscribe2 = this.props.nav.addListener('focus', () => {
+    //   console.log("Start timer from listener" + this.interval_active);
+    //   this.makeTimer();
+    // });
   }
 
   componentWillUnmount() {
+    console.log("Stop timer from unmount");
+    this.interval_active = false;
     clearInterval(this.intervalID);
     this._unsubscribe();
+  }
+
+  renderPopover() {
+    if (this.state.accessible_select_active) {
+      return null;
+    }
+  
+    return (
+      <Button style={CustomStyleSheet.styles.containerOver} onPress={() =>  this.select()}/>
+    );
   }
 
   render(){
@@ -121,6 +182,7 @@ export default class SelectPlaylistScreen extends Component {
           <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
           </Theme.Text>
         </Theme.View>
+        {this.renderPopover()}
       </Theme.View>
       </ScrollView>
     )

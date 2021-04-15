@@ -29,6 +29,15 @@ export default class SelectOption extends Component {
     }
   }
 
+  removeHighlight = () => {
+    // console.log('highlight changed to ');
+    // console.log(this.state.highlighted);
+    this.setState({
+      style_swap: CustomStyleSheet.styles.squareButton,
+      highlighted: false
+    });
+  }
+
   render(){
     return (
       <Theme.View>

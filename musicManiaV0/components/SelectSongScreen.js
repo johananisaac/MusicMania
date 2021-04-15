@@ -62,7 +62,9 @@ export default class SelectSongScreen extends Component {
         
         await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
         // await AsyncStorage.clear();
-        this.props.nav.navigate(destination);
+        if (destination != ""){
+          this.props.nav.navigate(destination);
+        }
       }
       catch (err){
         alert(err);
@@ -112,6 +114,10 @@ export default class SelectSongScreen extends Component {
       this.state.playlist = [];
       this.state.currentPlaylist = '';
     }
+    // this._unsubscribe = this.props.nav.addListener('blur', () => {
+    //   console.log("Save playlist from listener");
+    //   this.savePlaylist("");
+    // });
   }
 
   render(){

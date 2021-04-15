@@ -43,6 +43,14 @@ export const styles = createStyle({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  containerOver: {
+    backgroundColor: 'rgba(255, 0, 255, .3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
   instructions: {
     textAlign: 'center',
     color: '#888',
@@ -109,16 +117,16 @@ export const styles = createStyle({
     justifyContent: 'center',
   },
   buttonShort: {
-    // height: '5%',
     flex: 1,
-    flexDirection: 'row',
-    width: '100%',
+    // flexDirection: 'row',
+    // width: '100%',
     backgroundColor: '@textColor',
     borderColor: '@backgroundColor',
     borderRadius: 5,
     borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
+    textAlign: 'center'
   },
   squareButton: {
     margin: 5,

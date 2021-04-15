@@ -13,6 +13,8 @@ export default class SettingsOptionScreen extends Component {
   state = {
     players: [],
     playerName: "",
+    isSelected: null,
+    label: ""
   }
 
   setName(playername){
@@ -87,8 +89,66 @@ export default class SettingsOptionScreen extends Component {
     this.forceUpdate();
   }
 
+
+  // get accessible select state
+  async getAccessibleSelectState() {
+    try{
+      let settingsTemp = await AsyncStorage.getItem("AccessibleSelect");
+      if(settingsTemp != null){
+        this.setState({
+            isSelected: JSON.parse(settingsTemp),
+        });
+        if (this.state.isSelected) {
+          this.setState({
+            label: "Turn Off",
+          });
+        } else {
+          this.setState({
+            label: "Turn On",
+          });
+        }
+      }
+    }
+    catch(err){
+      alert(err);
+    }
+  }
+
+  // save accessible select state
+  async saveAccessibleSelectState(destination) {
+    this.setState({ isSelected: !this.state.isSelected})
+    if (this.state.isSelected) {
+      this.setState({
+        label: "Turn Off",
+      });
+    } else {
+      this.setState({
+        label: "Turn On",
+      });
+    }
+    try{
+      // await AsyncStorage.clear();
+      let settingTemp = await AsyncStorage.getItem("AccessibleSelect");
+      if(settingTemp == null){
+        let setting = this.state.isSelected.toString();
+        await AsyncStorage.setItem("AccessibleSelect", JSON.stringify(setting));
+      }
+      else{
+        let setting = JSON.parse(settingTemp);
+        await AsyncStorage.setItem("AccessibleSelect", JSON.stringify(setting));
+      }
+      await AsyncStorage.setItem("AccessibleSelect", JSON.stringify(this.state.isSelected));
+      // await AsyncStorage.clear();
+      this.props.nav.navigate(destination);
+    }
+    catch (err){
+      alert(err);
+    }
+  }
+
   componentDidMount(){
     this.getAdditionalPlayers();
+    this.getAccessibleSelectState();
   }
 
   render(){
@@ -127,7 +187,15 @@ export default class SettingsOptionScreen extends Component {
           <SelectOption name='Save and Play' onPress={() => this.savePlayer('Play')}/>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
-          <Theme.View>{this.players}</Theme.View>
+          <Theme.View style={CustomStyleSheet.styles.container}>{this.players}</Theme.View>
+        </Theme.View>
+        <Theme.View style={CustomStyleSheet.styles.containerRow}>
+          <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
+            Accessible Select
+          </Theme.Text>
+        </Theme.View>
+        <Theme.View style={CustomStyleSheet.styles.containerRow}>
+          <SelectOption name={this.state.label} onPress={() => this.saveAccessibleSelectState("Playlist Options")}/>
         </Theme.View>
       </Theme.View>
       </ScrollView>
