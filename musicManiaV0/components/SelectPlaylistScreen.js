@@ -98,6 +98,11 @@ export default class SelectPlaylistScreen extends Component {
     try{
       await AsyncStorage.setItem("EditPlaylist", "True");
       await AsyncStorage.setItem("currentPlaylist", name);
+      let playlistsTemp2 = await AsyncStorage.getItem("Youtube_Playlist_names");
+      let playlists2 = JSON.parse(playlistsTemp2);
+      if (playlists2.indexOf(name) > -1){
+        destination = 'Youtube';
+      }
     }
     catch (err){
       alert(err);
