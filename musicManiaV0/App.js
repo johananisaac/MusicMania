@@ -2,6 +2,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import 'react-native-gesture-handler';
+import { useState, useCallback, useRef } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Theme from 'react-native-theming';
@@ -19,6 +20,7 @@ import YoutubeScreen from './components/YoutubeScreen';
 import RecordOwnAudioScreen from './components/RecordOwnAudioScreen';
 import SettingsScreen from './components/SettingsScreen';
 import SettingsOptionScreen from './components/SettingsOptionScreen';
+import YoutubePlayScreen from './components/YoutubePlayScreen';
 
 function TutorialNavScreen({ navigation }) {
   return (
@@ -117,6 +119,13 @@ function TestNavScreen({ navigation }) {
     </Theme.View>
   );
 }
+function YoutubeNavPlayScreen({ navigation }) {
+  return (
+    <Theme.View style={CustomStyleSheet.styles.container}>
+      <YoutubePlayScreen nav={navigation}/>
+    </Theme.View>
+  );
+}
 
 const Stack = createStackNavigator();
 
@@ -185,6 +194,12 @@ export default function App() {
           headerTintColor: '#fff',
         }}/>
         <Stack.Screen name="Youtube" component={YoutubeNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
+        <Stack.Screen name="YoutubePlay" component={YoutubeNavPlayScreen} options={{
           headerStyle: {
             backgroundColor: '#808080',
           },

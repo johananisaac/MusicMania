@@ -59,6 +59,21 @@ export default class YoutubeScreen extends Component {
   // saving playist
   async savePlaylist(destination) {
     let keywords = ['Playlist_names', 'EditPlaylist', 'currentPlaylist', 'Num_recordings', 'Players', 'Youtube_Playlist_names'];
+    // check if playlist name is not in the names of other playlist list
+    let playlistTemp2 = await AsyncStorage.getItem("Playlist_names");
+    let playlists2 = [];
+    if(playlistTemp2 != null){
+      playlists2 = JSON.parse(playlistTemp2);
+      keywords = keywords.concat(playlists2);
+      alert(keywords);
+    }
+    // get list of youtube playlist names
+    let playlistTemp = await AsyncStorage.getItem("Youtube_Playlist_names");
+    let playlists = [];
+    if(playlistTemp != null){
+      playlists = JSON.parse(playlistTemp);
+      keywords = keywords.concat(playlists)
+    }
     if(this.state.playlistName == ''){
       alert("Name your playlist!");
     }
@@ -69,45 +84,34 @@ export default class YoutubeScreen extends Component {
       alert("Invalid Playlist Name");
     }
     else{
-      try{
-        // get list of youtube playlist names
-        let playlistTemp = await AsyncStorage.getItem("Youtube_Playlist_names");
-        let playlists = [];
-        if(playlistTemp != null){
-          playlists = JSON.parse(playlistTemp);
-        }
-        // check Edit_Playlist to see if creating new playlist or editing
-        if(this.state.EditPlaylist == "False"){
-          // push playlist name to list
-          playlists.push(this.state.playlistName.toString());
-          // update storage
-          await AsyncStorage.setItem("Youtube_Playlist_names", JSON.stringify(playlists));
-        }
-        // editing a playlist
-        else{
-          let index = playlists.indexOf(this.state.oldPlaylistName);
-          playlists.splice(index, 1);
-          playlists.push(this.state.playlistName.toString());
-          await AsyncStorage.setItem("Youtube_Playlist_names", JSON.stringify(playlists));
-        }
-        // set current Playlist
-        await AsyncStorage.setItem("currentPlaylist", this.state.playlistName.toString());
-        // match playlist name with list of songs
-        // check if playlist name is not in the names of other playlist list
-        let playlistTemp2 = await AsyncStorage.getItem("Playlist_names");
-        if(playlistTemp2 != null){
-          let playlists2 = JSON.parse(playlistTemp2);
-          if(playlists2.indexOf(this.state.playlistName) > -1){
-            alert("Invalid Playlist Name!");
-          }
-          else{
-            await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
-            this.props.nav.navigate(destination);
-          }
-        }
+      if(playlistTemp2 != null && playlists2.indexOf(this.state.playlistName) > -1){
+        alert("Invalid Playlist Name!");
       }
-      catch(err){
-        alert(err);
+      else{
+        try{
+          // check Edit_Playlist to see if creating new playlist or editing
+          if(this.state.EditPlaylist == "False"){
+            // push playlist name to list
+            playlists.push(this.state.playlistName.toString());
+            // update storage
+            await AsyncStorage.setItem("Youtube_Playlist_names", JSON.stringify(playlists));
+          }
+          // editing a playlist
+          else{
+            let index = playlists.indexOf(this.state.oldPlaylistName);
+            playlists.splice(index, 1);
+            playlists.push(this.state.playlistName.toString());
+            await AsyncStorage.setItem("Youtube_Playlist_names", JSON.stringify(playlists));
+          }
+          // set current Playlist
+          await AsyncStorage.setItem("currentPlaylist", this.state.playlistName.toString());
+          // match playlist name with list of songs
+          await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
+          this.props.nav.navigate(destination);
+        }
+        catch(err){
+          alert(err);
+        }
       }
     }
   }
@@ -179,7 +183,7 @@ export default class YoutubeScreen extends Component {
         <Theme.View style={CustomStyleSheet.styles.row}>
           {this.deleteButton}
           <SelectOption name='Add' onPress={() => this.addToPlaylist()}/>
-          <SelectOption name='Save and Play' onPress={() => this.savePlaylist('Play')}/>
+          <SelectOption name='Save and Play' onPress={() => this.savePlaylist('YoutubePlay')}/>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.fullWidth}>
           <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>Playlist</Theme.Text>

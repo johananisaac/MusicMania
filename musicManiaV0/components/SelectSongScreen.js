@@ -23,7 +23,21 @@ export default class SelectSongScreen extends Component {
   }
   // save playlist
   async savePlaylist(destination) {
-    let keywords = ['Playlist_names', 'EditPlaylist', 'currentPlaylist', 'Num_recordings', 'Players'];
+    let keywords = ['Playlist_names', 'EditPlaylist', 'currentPlaylist', 'Num_recordings', 'Players', 'Youtube_Playlist_names'];
+    let playlistTemp2 = await AsyncStorage.getItem("Youtube_Playlist_names");
+    let playlists2 = [];
+    if(playlistTemp2 != null){
+      playlists2 = JSON.parse(playlistTemp2);
+      keywords = keywords.concat(playlists2);
+      alert(keywords);
+    }
+    // get list of playlist names
+    let playlistTemp = await AsyncStorage.getItem("Playlist_names");
+    let playlists = [];
+    if(playlistTemp != null){
+      playlists = JSON.parse(playlistTemp);
+      keywords = keywords.concat(playlists);
+    }
     if(this.state.playlistName == ''){
       alert("Name your playlist!");
     }
@@ -35,21 +49,15 @@ export default class SelectSongScreen extends Component {
     }
     else{
       try{
-        if(this.state.EditPlaylist == "False") {
-          let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
-          if(playlistsTemp == null){
-            let playlists = [];
-            playlists.push(this.state.playlistName.toString());
-            await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
-          }
-          else{
-            let playlists = JSON.parse(playlistsTemp);
-            playlists.push(this.state.playlistName.toString());
-            await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
-          }
-        } else {
-          let playlistsTemp = await AsyncStorage.getItem("Playlist_names");
-          let playlists = JSON.parse(playlistsTemp);
+        // check Edit_Playlist to see if creating new playlist or editing
+        if(this.state.EditPlaylist == "False"){
+          // push playlist name to list
+          playlists.push(this.state.playlistName.toString());
+          // update storage
+          await AsyncStorage.setItem("Playlist_names", JSON.stringify(playlists));
+        }
+        // editing a playlist
+        else{
           let index = playlists.indexOf(this.state.oldPlaylistName);
           playlists.splice(index, 1);
           playlists.push(this.state.playlistName.toString());
@@ -57,16 +65,11 @@ export default class SelectSongScreen extends Component {
         }
         // set current Playlist
         await AsyncStorage.setItem("currentPlaylist", this.state.playlistName.toString());
-
-        // await AsyncStorage.clear();
-        
+        // match playlist name with list of songs
         await AsyncStorage.setItem(this.state.playlistName.toString(), JSON.stringify(this.state.playlist));
-        // await AsyncStorage.clear();
-        if (destination != ""){
-          this.props.nav.navigate(destination);
-        }
+        this.props.nav.navigate(destination);
       }
-      catch (err){
+      catch(err){
         alert(err);
       }
     }
