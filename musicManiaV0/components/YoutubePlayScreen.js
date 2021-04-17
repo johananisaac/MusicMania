@@ -74,10 +74,19 @@ export default class YoutubePlayScreen extends Component {
     render() {
 
         return (
-            <ScrollView>
-                <Theme.View style={CustomStyleSheet.styles.row}>
-                    <SelectOption name={this.state.playorpause} onPress={() => this.startThis()}/>
-                    <SelectOption name='Next' onPress={() => this.next()}/>
+            <ScrollView style={{width: '100%'}}>
+                <Theme.View style={CustomStyleSheet.styles.container}>
+                    <Theme.View style={CustomStyleSheet.styles.containerRow, {flex: .15}}>
+                        <Button
+                            onPress={() => {this.props.nav.navigate('Home')}}
+                            style={CustomStyleSheet.styles.buttonShort}>
+                            <Theme.Text style={CustomStyleSheet.styles.shortButtonText}>Back to home!</Theme.Text>
+                        </Button>
+                    </Theme.View>
+                    <Theme.View style={CustomStyleSheet.styles.row}>
+                        <SelectOption name={this.state.playorpause} onPress={() => this.startThis()}/>
+                        <SelectOption name='Next' onPress={() => this.next()}/>
+                    </Theme.View>
                 </Theme.View>
                 <YoutubePlayer
                         height={1600}
