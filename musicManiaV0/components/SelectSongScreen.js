@@ -29,7 +29,6 @@ export default class SelectSongScreen extends Component {
     if(playlistTemp2 != null){
       playlists2 = JSON.parse(playlistTemp2);
       keywords = keywords.concat(playlists2);
-      alert(keywords);
     }
     // get list of playlist names
     let playlistTemp = await AsyncStorage.getItem("Playlist_names");
@@ -44,7 +43,10 @@ export default class SelectSongScreen extends Component {
     else if(this.state.playlist.length == 0){
       alert("Playlist cannot be empty!");
     }
-    else if(keywords.indexOf(this.state.playlistName) > -1){
+    else if(keywords.indexOf(this.state.playlistName) > -1 && this.state.EditPlaylist == 'False'){
+      alert("Invalid Playlist Name");
+    }
+    else if(keywords.indexOf(this.state.playlistName) > -1 && this.state.EditPlaylist == 'True' && this.state.oldPlaylistName != this.state.playlistName){
       alert("Invalid Playlist Name");
     }
     else{
@@ -185,7 +187,7 @@ export default class SelectSongScreen extends Component {
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.row}>
           {this.deleteButton}
-          <SelectOption name='Play' onPress={() => this.savePlaylist('Play')}/>
+          <SelectOption name='Save and Play' onPress={() => this.savePlaylist('Play')}/>
           <SelectOption name='Record your own audio' onPress={() => this.savePlaylist('Record Own Song')}/>
         </Theme.View>
       </Theme.View>

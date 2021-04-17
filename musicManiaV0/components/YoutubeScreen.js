@@ -65,7 +65,6 @@ export default class YoutubeScreen extends Component {
     if(playlistTemp2 != null){
       playlists2 = JSON.parse(playlistTemp2);
       keywords = keywords.concat(playlists2);
-      alert(keywords);
     }
     // get list of youtube playlist names
     let playlistTemp = await AsyncStorage.getItem("Youtube_Playlist_names");
@@ -80,7 +79,10 @@ export default class YoutubeScreen extends Component {
     else if(this.state.playlist.length == 0){
       alert("Playlist cannot be empty!");
     }
-    else if(keywords.indexOf(this.state.playlistName) > -1){
+    else if(keywords.indexOf(this.state.playlistName) > -1 && this.state.EditPlaylist == 'False'){
+      alert("Invalid Playlist Name");
+    }
+    else if(keywords.indexOf(this.state.playlistName) > -1 && this.state.EditPlaylist == 'True' && this.state.oldPlaylistName != this.state.playlistName){
       alert("Invalid Playlist Name");
     }
     else{
