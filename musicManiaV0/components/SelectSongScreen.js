@@ -163,23 +163,23 @@ export default class SelectSongScreen extends Component {
         </Theme.Text>
         <Theme.View style={CustomStyleSheet.styles.row}>
           <SelectOption name='Saxophone' onPress={() => this.addToPlaylist("Saxophone")}/>
-          <SelectOption name='Piano' onPress={() => this.addToPlaylist("Piano")}/>
+          <SelectOption name='Clarinet' onPress={() => this.addToPlaylist("Clarinet")}/>
           <SelectOption name='Violin' onPress={() => this.addToPlaylist("Violin")}/>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.row}>
-          <SelectOption name='Sample Song1' onPress={() => this.addToPlaylist("Sample Song1")}/>
-          <SelectOption name='Sample Song2' onPress={() => this.addToPlaylist("Sample Song2")}/>
-          <SelectOption name='Sample Song3' onPress={() => this.addToPlaylist("Sample Song3")}/>
+          <SelectOption name='Skidamarink' onPress={() => this.addToPlaylist("Skidamarink")}/>
+          <SelectOption name='A Little Night Music' onPress={() => this.addToPlaylist("A Little Night Music")}/>
+          <SelectOption name='You Are My Sunshine' onPress={() => this.addToPlaylist("'You Are My Sunshine")}/>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.row}>
-          <SelectOption name='My Song1' onPress={() => this.addToPlaylist("My Song1")}/>
-          <SelectOption name='My Song2' onPress={() => this.addToPlaylist("My Song2")}/>
-          <SelectOption name='My Song3' onPress={() => this.addToPlaylist("My Song3")}/>
+          <SelectOption name='Whistle!' onPress={() => this.addToPlaylist("Whistle!")}/>
+          <SelectOption name='Crash!' onPress={() => this.addToPlaylist("Crash!")}/>
+          <SelectOption name='Splash!' onPress={() => this.addToPlaylist("Splash!")}/>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.row}>
           <SelectOption name='Whoosh!' onPress={() => this.addToPlaylist("Whoosh!")}/>
           <SelectOption name='Bop!' onPress={() => this.addToPlaylist("Bop!")}/>
-          <SelectOption name='Pow!' onPress={() => this.addToPlaylist("Pow!")}/>
+          <SelectOption name='Boing!' onPress={() => this.addToPlaylist("Boing!")}/>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.fullWidth}>
           <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>Playlist</Theme.Text>
