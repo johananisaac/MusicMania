@@ -40,6 +40,14 @@ export default class HomeScreen extends Component {
             </Button>
         </Theme.View>
         <Separator />
+        <Theme.View style={CustomStyleSheet.styles.helpContainerRow}>
+            <Button
+            onPress={() => this.props.nav.navigate('Help Screen')}
+            style={CustomStyleSheet.styles.helpButton}>
+            <Theme.Text style={CustomStyleSheet.styles.helpButtonText}>HELP</Theme.Text>
+            </Button>
+        </Theme.View>
+        <Separator />
     </Theme.View>
     )
   } 

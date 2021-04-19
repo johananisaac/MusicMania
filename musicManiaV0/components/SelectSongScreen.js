@@ -23,7 +23,7 @@ export default class SelectSongScreen extends Component {
   }
   // save playlist
   async savePlaylist(destination) {
-    let keywords = ['Playlist_names', 'EditPlaylist', 'currentPlaylist', 'Num_recordings', 'Players', 'Youtube_Playlist_names'];
+    let keywords = ['Playlist_names', 'EditPlaylist', 'currentPlaylist', 'numRecordings', 'Players', 'Youtube_Playlist_names', 'recordingNames', 'recordingMap'];
     let playlistTemp2 = await AsyncStorage.getItem("Youtube_Playlist_names");
     let playlists2 = [];
     if(playlistTemp2 != null){
@@ -144,8 +144,8 @@ export default class SelectSongScreen extends Component {
     if(this.state.EditPlaylist == "True"){
       this.deleteButton = 
         <SelectOption name='Delete Playlist' onPress={() => this.deletePlaylist('Home')}/>
-
     }
+
     
     return (
       <ScrollView>
@@ -188,7 +188,7 @@ export default class SelectSongScreen extends Component {
         <Theme.View style={CustomStyleSheet.styles.row}>
           {this.deleteButton}
           <SelectOption name='Save and Play' onPress={() => this.savePlaylist('Play')}/>
-          <SelectOption name='Record your own audio' onPress={() => this.savePlaylist('Record Own Song')}/>
+          <SelectOption name='Record your own audio' onPress={() => this.savePlaylist('Record Play')}/>
         </Theme.View>
       </Theme.View>
       </ScrollView>

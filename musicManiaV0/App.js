@@ -17,7 +17,7 @@ import PlayScreen from './components/PlayScreen';
 import SelectPlaylistScreen from './components/SelectPlaylistScreen';
 import SelectSongScreen from './components/SelectSongScreen';
 import YoutubeScreen from './components/YoutubeScreen';
-import RecordOwnAudioScreen from './components/RecordOwnAudioScreen';
+import HelpScreen from './components/HelpScreen';
 import SettingsScreen from './components/SettingsScreen';
 import SettingsOptionScreen from './components/SettingsOptionScreen';
 import YoutubePlayScreen from './components/YoutubePlayScreen';
@@ -102,10 +102,10 @@ function SettingsOptionNavScreen({ navigation }) {
   );
 }
 
-function RecordOwnAudioNavScreen({ navigation }) {
+function HelpNavScreen({ navigation }) {
   return (
     <Theme.View style={CustomStyleSheet.styles.container}>
-      <RecordOwnAudioScreen nav={navigation}/>
+      <HelpScreen nav={navigation}/>
     </Theme.View>
   );
 }
@@ -187,7 +187,7 @@ export default function App() {
           },
           headerTintColor: '#fff',
         }}/>
-        <Stack.Screen name="Record Own Song" component={RecordOwnAudioNavScreen} options={{
+        <Stack.Screen name="Help Screen" component={HelpNavScreen} options={{
           headerStyle: {
             backgroundColor: '#808080',
           },

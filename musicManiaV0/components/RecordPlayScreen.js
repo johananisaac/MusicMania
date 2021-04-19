@@ -15,13 +15,28 @@ const Separator = () => (
   <Theme.View style={CustomStyleSheet.styles.separator} />
 );
 
-export default function App() {
+export default class RecordPlayScreen extends React.Component {
 
-  const [recording, setRecording] = React.useState();
-  const [showPlay, setShowPlay] = React.useState();
-  const [recName, setRecName] = React.useState();
+  constructor(props) {
+    super(props)
+    this.playRec = this.playRec.bind(this);
+    this.startRecording = this.startRecording.bind(this);
+    this.stopRecording = this.stopRecording.bind(this);
+    this.deleteRec = this.deleteRec.bind(this);
+    this.saveRec = this.saveRec.bind(this);
+  }
 
-  async function startRecording() {
+  state = {
+    showPlay: false,
+    recording: null,
+    name: ''
+  }
+
+
+  //const [recording, setRecording] = React.useState();
+  //const [showPlay, setShowPlay] = React.useState();
+
+  async startRecording() {
     try {
       console.log('Requesting permissions..');
       await Audio.requestPermissionsAsync();
@@ -33,18 +48,19 @@ export default function App() {
       const recording = new Audio.Recording();
       await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
       await recording.startAsync(); 
-      setRecording(recording);
+      this.setState({
+        recording: recording
+      });
       console.log('Recording started');
     } catch (err) {
       console.error('Failed to start recording', err);
     }
   }
 
-  async function stopRecording() {
+  async stopRecording() {
     console.log('Stopping recording..');
-    setRecording(undefined);
-    await recording.stopAndUnloadAsync();
-    const uri = recording.getURI();
+    await this.state.recording.stopAndUnloadAsync();
+    const uri = this.state.recording.getURI();
     console.log('Recording stopped and stored at', uri);
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
@@ -55,9 +71,9 @@ export default function App() {
       playThroughEarpieceAndroid: false,
       staysActiveInBackground: true,
     });
-    let recCount = await AsyncStorage.getItem("Num_Recordings");
+    let recCount = await AsyncStorage.getItem("numRecordings");
     if(recCount == null) {
-      await AsyncStorage.setItem("Num_Recordings", "0");
+      await AsyncStorage.setItem("numRecordings", "0");
       recCount = 0;
     }
     else {
@@ -71,11 +87,14 @@ export default function App() {
     });
     let rec_loc = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory);
     console.log(rec_loc);
-    setShowPlay(true);
+    this.setState({
+      showPlay: true,
+      recording: undefined
+    });
   }
 
-  async function playRec() {
-    let filename = await AsyncStorage.getItem("Num_Recordings");
+  async playRec() {
+    let filename = await AsyncStorage.getItem("numRecordings");
     let doc_dir = await FileSystem.documentDirectory;   
     const sound = new Audio.Sound();
     await sound.loadAsync({ uri: doc_dir + filename + ".caf"});
@@ -89,61 +108,119 @@ export default function App() {
     }
   }
 
-  async function deleteRec() {
-    let filename = await AsyncStorage.getItem("Num_Recordings");
+  async deleteRec() {
+    let filename = await AsyncStorage.getItem("numRecordings");
     let doc_dir = await FileSystem.documentDirectory;
     await FileSystem.deleteAsync(doc_dir + filename + ".caf");
-    setShowPlay(false);
+    this.setState({
+      showPlay: false
+    });
     let rec_loc = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory);
     console.log(rec_loc);
   }
 
-  const ShowRecord = () => (
-    <Theme.View style={CustomStyleSheet.styles.container}>
-      <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
-          {recording ? 'Stop Recording' : 'Start Recording' }
-      </Theme.Text>
-      <Theme.View style={CustomStyleSheet.styles.containerRow}>
-        <Button
-          onPress={recording ? stopRecording : startRecording}
-          style={CustomStyleSheet.styles.button}>
-          <Theme.Text style={CustomStyleSheet.styles.buttonText}>Record your song!</Theme.Text>
-        </Button>
-      </Theme.View>
-    </Theme.View>
-  )
+  async saveRec() {
+    let numRecordings = await AsyncStorage.getItem("numRecordings");
+    let recordingNames = await AsyncStorage.getItem("recordingNames");
+    let recordingMap = await AsyncStorage.getItem("recordingMap");
+    numRecordings = parseInt(numRecordings);
+    if(this.state.name == ''){
+      alert("Please name your recording!");
+      return;
+    } 
+    else if(recordingNames == null) {
+      console.log("inhere");
+      recordingNames = [this.state.name]
+      recordingMap = {};
+      recordingMap[numRecordings] = this.state.name;
+      await AsyncStorage.setItem("recordingNames", JSON.stringify(recordingNames));
+      await AsyncStorage.setItem("recordingMap", JSON.stringify(recordingMap));
+      numRecordings = numRecordings + 1;
+      await AsyncStorage.setItem("numRecordings", JSON.stringify(numRecordings));
+      this.props.nav.navigate('Play');
+      return;
+    }
 
-  const PlaySound = () => (
-    <Theme.View style={CustomStyleSheet.styles.container}>
-      <ThemeTextInput style={CustomStyleSheet.styles.paragraphInput} 
-        placeholder="Name your song!"/>
-      <Separator />
-      <Theme.View style={CustomStyleSheet.styles.containerRow}>
-          <Button
-            onPress={playRec}
-            style={CustomStyleSheet.styles.button}>
-            <Theme.Text style={CustomStyleSheet.styles.buttonText}>Play</Theme.Text>
-          </Button>
-      </Theme.View>
-      <Separator />
-      <Theme.View style={CustomStyleSheet.styles.containerRow}>
-          <Button
-            onPress={playRec}
-            style={CustomStyleSheet.styles.button}>
-            <Theme.Text style={CustomStyleSheet.styles.buttonText}>Save</Theme.Text>
-          </Button>
-          <Button
-            onPress={deleteRec}
-            style={CustomStyleSheet.styles.button}>
-            <Theme.Text style={CustomStyleSheet.styles.buttonText}>Delete</Theme.Text>
-          </Button>
-      </Theme.View>
-    </Theme.View>
-  )
+    console.log("nextStep");
 
-  return (
-    <Theme.View style={CustomStyleSheet.styles.container}>
-      { showPlay ? <PlaySound /> : <ShowRecord /> }
-    </Theme.View>
-  );
+    recordingNames = JSON.parse(recordingNames);
+    recordingMap = JSON.parse(recordingMap);
+
+    if(recordingNames.includes(this.state.name)){
+      alert("There is already a recording of this name!");
+      return;
+    } else {    
+      recordingNames.push(this.state.name);
+      await AsyncStorage.setItem("recordingNames", JSON.stringify(recordingNames));      
+      recordingMap[numRecordings] = this.state.name;
+      await AsyncStorage.setItem("recordingMap", JSON.stringify(recordingMap));
+      numRecordings = numRecordings + 1;
+      await AsyncStorage.setItem("numRecordings", JSON.stringify(numRecordings));
+    }
+    this.props.nav.navigate('Play');
+  }
+
+  render() {
+    let ShowRecord = (
+      <Theme.View style={CustomStyleSheet.styles.container}>
+        <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
+            {this.state.recording ? 'Stop Recording' : 'Start Recording' }
+        </Theme.Text>
+        <Theme.View style={CustomStyleSheet.styles.containerRow}>
+          <Button
+            onPress={this.state.recording ? this.stopRecording : this.startRecording}
+            style={CustomStyleSheet.styles.button}>
+            <Theme.Text style={CustomStyleSheet.styles.buttonText}>Record your song!</Theme.Text>
+          </Button>
+        </Theme.View>
+      </Theme.View>
+    );
+    let PlaySound = (
+      <Theme.View style={CustomStyleSheet.styles.container}>
+        <ThemeTextInput style={CustomStyleSheet.styles.paragraphInput}
+          onChangeText={(text) => {
+            this.setState({
+              name: text
+            })}} 
+          placeholder="Name your song!"/>
+        <Separator />
+        <Theme.View style={CustomStyleSheet.styles.containerRow}>
+            <Button
+              onPress={this.playRec}
+              style={CustomStyleSheet.styles.button}>
+              <Theme.Text style={CustomStyleSheet.styles.buttonText}>Play</Theme.Text>
+            </Button>
+        </Theme.View>
+        <Separator />
+        <Theme.View style={CustomStyleSheet.styles.containerRow}>
+            <Button
+              onPress={() => {
+                this.saveRec();
+              }}
+              style={CustomStyleSheet.styles.button}>
+              <Theme.Text style={CustomStyleSheet.styles.buttonText}>Save</Theme.Text>
+            </Button>
+            <Button
+              onPress={this.deleteRec}
+              style={CustomStyleSheet.styles.button}>
+              <Theme.Text style={CustomStyleSheet.styles.buttonText}>Delete</Theme.Text>
+            </Button>
+        </Theme.View>
+      </Theme.View>
+    );
+    return (
+      <Theme.View style={CustomStyleSheet.styles.container}>
+        { this.state.showPlay ? PlaySound : ShowRecord }
+        <Separator />
+        <Theme.View style={CustomStyleSheet.styles.helpContainerRow}>
+              <Button
+              onPress={() => this.props.nav.navigate('Help Screen')}
+              style={CustomStyleSheet.styles.helpButton}>
+              <Theme.Text style={CustomStyleSheet.styles.helpButtonText}>HELP</Theme.Text>
+              </Button>
+        </Theme.View>
+      </Theme.View>
+    );
+  }
+  
 }

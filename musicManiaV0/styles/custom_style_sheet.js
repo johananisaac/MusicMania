@@ -63,6 +63,13 @@ export const styles = createStyle({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  helpContainerRow: {
+    flexDirection: 'row',
+    flex: 0.5,
+    backgroundColor: '@backgroundColor',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   // Paragraph
   baseParagraph: {
     ...Mixins.margin(24, 24, 0, 24),
@@ -150,7 +157,37 @@ export const styles = createStyle({
     borderColor: '#00FFFF',
     borderWidth: 2,
   },
+  helpButton: {
+    flex: 1,
+    margin: 10,
+    height: '100%',
+    width: '100%',
+    backgroundColor: '#FF0000',
+    borderColor: '@buttonColor',
+    borderRadius: 5,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  helpButtonSmall: {
+    flex: 1,
+    margin: 10,
+    height: '50%',
+    width: '100%',
+    backgroundColor: '#FF0000',
+    borderColor: '@buttonColor',
+    borderRadius: 5,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   // ButtonText
+  helpButtonText: {
+    fontSize: Typography.FONT_SIZE_75,
+    fontWeight: Typography.FONT_WEIGHT_BOLD,
+    color: '#FFFFFF',
+    textAlign: 'center',
+  },
   baseButtonText: {
     fontWeight: Typography.FONT_WEIGHT_BOLD,
     color: '@backgroundColor',
