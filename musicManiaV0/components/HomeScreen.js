@@ -16,7 +16,7 @@ export default class HomeScreen extends Component {
   async componentDidMount() {
     let tutorial = await AsyncStorage.getItem("firstAppUse");
     if(tutorial == null){
-        //await AsyncStorage.setItem("firstAppUse", "false");
+        await AsyncStorage.setItem("firstAppUse", "false");
         this.props.nav.navigate('Tutorial');
     }
   }

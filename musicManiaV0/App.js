@@ -13,6 +13,7 @@ import TestScreen from './components/TestScreen';
 import HomeScreen from './components/HomeScreen';
 import PlayOptionsScreen from './components/PlayOptionsScreen';
 import RecordPlayScreen from './components/RecordPlayScreen';
+import RecordingsScreen from './components/RecordingsScreen';
 import PlayScreen from './components/PlayScreen';
 import SelectPlaylistScreen from './components/SelectPlaylistScreen';
 import SelectSongScreen from './components/SelectSongScreen';
@@ -58,6 +59,14 @@ function RecordPlayNavScreen({ navigation }) {
   return (
     <Theme.View style={CustomStyleSheet.styles.container}>
         <RecordPlayScreen nav={navigation}/>
+    </Theme.View>
+  );
+}
+
+function RecordingsNavScreen({ navigation }) {
+  return (
+    <Theme.View style={CustomStyleSheet.styles.container}>
+        <RecordingsScreen nav={navigation}/>
     </Theme.View>
   );
 }
@@ -164,6 +173,12 @@ export default function App() {
           headerTintColor: '#fff',
         }}/>
         <Stack.Screen name="Record Play" component={RecordPlayNavScreen} options={{
+          headerStyle: {
+            backgroundColor: '#808080',
+          },
+          headerTintColor: '#fff',
+        }}/>
+        <Stack.Screen name="Saved Recordings" component={RecordingsNavScreen} options={{
           headerStyle: {
             backgroundColor: '#808080',
           },

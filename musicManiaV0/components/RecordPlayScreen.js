@@ -6,6 +6,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import Theme, {createThemedComponent } from 'react-native-theming';
 import { Audio, AVPlaybackStatus } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
+import {BackHandler} from 'react-native';
 
 const Button = createThemedComponent(TouchableOpacity);
 const ThemeTextInput = createThemedComponent(TextInput);
@@ -30,6 +31,16 @@ export default class RecordPlayScreen extends React.Component {
     showPlay: false,
     recording: null,
     name: ''
+  }
+
+  componentDidMount() {
+       BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
+   }
+
+  handleBackButton(){
+    if(this.state.recording != null){
+      this.stopRecording();
+    }
   }
 
 
@@ -123,6 +134,7 @@ export default class RecordPlayScreen extends React.Component {
     let numRecordings = await AsyncStorage.getItem("numRecordings");
     let recordingNames = await AsyncStorage.getItem("recordingNames");
     let recordingMap = await AsyncStorage.getItem("recordingMap");
+    let recordingIDs = await AsyncStorage.getItem("recordingIDs");
     numRecordings = parseInt(numRecordings);
     if(this.state.name == ''){
       alert("Please name your recording!");
@@ -130,18 +142,21 @@ export default class RecordPlayScreen extends React.Component {
     } 
     else if(recordingNames == null) {
       recordingNames = [this.state.name]
+      recordingIDs = [numRecordings];
       recordingMap = {};
       recordingMap[numRecordings] = this.state.name;
       await AsyncStorage.setItem("recordingNames", JSON.stringify(recordingNames));
       await AsyncStorage.setItem("recordingMap", JSON.stringify(recordingMap));
+      await AsyncStorage.setItem("recordingIDs", JSON.stringify(recordingIDs));
       numRecordings = numRecordings + 1;
       await AsyncStorage.setItem("numRecordings", JSON.stringify(numRecordings));
-      this.props.nav.navigate('Play');
+      this.props.nav.goBack(null);
       return;
     }
 
     recordingNames = JSON.parse(recordingNames);
     recordingMap = JSON.parse(recordingMap);
+    recordingIDs = JSON.parse(recordingIDs);
 
     if(recordingNames.includes(this.state.name)){
       alert("There is already a recording of this name!");
@@ -150,11 +165,16 @@ export default class RecordPlayScreen extends React.Component {
       recordingNames.push(this.state.name);
       await AsyncStorage.setItem("recordingNames", JSON.stringify(recordingNames));      
       recordingMap[numRecordings] = this.state.name;
+      recordingIDs.push(numRecordings);
       await AsyncStorage.setItem("recordingMap", JSON.stringify(recordingMap));
+      await AsyncStorage.setItem("recordingIDs", JSON.stringify(recordingIDs));
       numRecordings = numRecordings + 1;
       await AsyncStorage.setItem("numRecordings", JSON.stringify(numRecordings));
+      console.log(recordingIDs);
+      console.log(recordingMap);
+      console.log(recordingNames);
     }
-    this.props.nav.navigate('Play');
+    this.props.nav.goBack(null);
   }
 
   render() {

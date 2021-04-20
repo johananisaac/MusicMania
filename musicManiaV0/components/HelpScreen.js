@@ -41,7 +41,7 @@ export default class RecordOwnAudioScreen extends Component {
             <Button
             onPress={() => {
                 this.stopSiren();
-                this.props.nav.navigate('Home');
+                this.props.nav.goBack(null);
             }}
             style={CustomStyleSheet.styles.helpButton}>
             <Theme.Text style={CustomStyleSheet.styles.helpButtonText}>HELP</Theme.Text>

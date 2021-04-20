@@ -43,6 +43,7 @@ export default class SelectOption extends Component {
       <Theme.View>
         <Button
           onPress={this.props.onPress}
+          onLongPress={this.props.onLongPress}
           style={this.state.style_swap}>
           <Theme.Text style={CustomStyleSheet.styles.buttonTextMedium}>{this.props.name}</Theme.Text>
         </Button>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { TouchableOpacity, ScrollView, AsyncStorage } from 'react-native';
+import { TouchableOpacity, ScrollView, AsyncStorage, View } from 'react-native';
 import SelectOption from './SelectOption';
 import { TextInput } from 'react-native-gesture-handler';
 import { CustomStyleSheet } from '../styles';
@@ -23,7 +23,7 @@ export default class SelectSongScreen extends Component {
   }
   // save playlist
   async savePlaylist(destination) {
-    let keywords = ['Playlist_names', 'EditPlaylist', 'currentPlaylist', 'numRecordings', 'Players', 'Youtube_Playlist_names', 'recordingNames', 'recordingMap', 'firstAppUse'];
+    let keywords = ['Playlist_names', 'EditPlaylist', 'currentPlaylist', 'numRecordings', 'Players', 'Youtube_Playlist_names', 'recordingNames', 'recordingMap', 'firstAppUse', 'recordingIDs'];
     let playlistTemp2 = await AsyncStorage.getItem("Youtube_Playlist_names");
     let playlists2 = [];
     if(playlistTemp2 != null){
@@ -105,6 +105,9 @@ export default class SelectSongScreen extends Component {
   }
 
   async componentDidMount(){
+    this._unsubscribe = this.props.nav.addListener('focus', () => {
+      this.addRecording();
+    });
     this.state.EditPlaylist = await AsyncStorage.getItem("EditPlaylist");
     if(this.state.EditPlaylist == "True"){
       let name = await AsyncStorage.getItem("currentPlaylist");
@@ -123,6 +126,24 @@ export default class SelectSongScreen extends Component {
     //   console.log("Save playlist from listener");
     //   this.savePlaylist("");
     // });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
+
+  async addRecording() {
+    let recToAdd = await AsyncStorage.getItem("recordingToAddToPlaylist");
+    let recMap = await AsyncStorage.getItem("recordingMap");
+    if(recToAdd != "False"){
+      recMap = JSON.parse(recMap);
+      recToAdd = JSON.parse(recToAdd);
+      this.setState({
+        playlist: [...this.state.playlist, recMap[recToAdd]]
+      });
+      
+    }
+    await AsyncStorage.setItem("recordingToAddToPlaylist", "False");
   }
 
   render(){
@@ -189,6 +210,7 @@ export default class SelectSongScreen extends Component {
           {this.deleteButton}
           <SelectOption name='Save and Play' onPress={() => this.savePlaylist('Play')}/>
           <SelectOption name='Record your own audio' onPress={() => this.savePlaylist('Record Play')}/>
+          <SelectOption name='Saved Recordings' onPress={() => this.props.nav.navigate('Saved Recordings')}/>
         </Theme.View>
       </Theme.View>
       </ScrollView>
