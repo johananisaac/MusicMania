@@ -19,7 +19,7 @@ export default class PlayScreen extends Component {
         <Theme.View style={CustomStyleSheet.styles.containerRowPlay}>
         <Button
             onPress={() => {
-              //AsyncStorage.setItem("stopPlay", "True");
+              AsyncStorage.setItem("stopPlay", "True");
               this.props.nav.navigate('Home')
             }}
             style={CustomStyleSheet.styles.buttonShortPlay}>

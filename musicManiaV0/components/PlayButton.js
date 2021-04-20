@@ -4,7 +4,7 @@ import { AsyncStorage } from 'react-native';
 import { Audio } from 'expo-av';
 import { CustomStyleSheet } from '../styles'
 import Theme, {createThemedComponent } from 'react-native-theming';
-
+import {BackHandler} from 'react-native';
 
 // Use Animated library for ripples in the future
 import Ripple from 'react-native-material-ripple';
@@ -79,7 +79,12 @@ export default class PlayButton extends Component {
         }
     }
 
+    handleBackButton(){
+        AsyncStorage.setItem("stopPlay", "True");
+    }
+
     async componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
         this.getColor();
         this.getAdditionalPlayers();
         
@@ -106,14 +111,16 @@ export default class PlayButton extends Component {
         this.currentMusicChoice = 0;
         this.pause = false;
         
+        await AsyncStorage.setItem("stopPlay", "False");
 
 
         this._onPlaybackStatusUpdate = async (playbackStatus) => {
             // loads correct note to play, iterates song note after playing
-            //let stop = await AsyncStorage.getItem("stopPlay");
-            //if(stop == "True"){
-            //    this.music.unloadAsync();
-            //}
+            let stop = await AsyncStorage.getItem("stopPlay");
+            if(stop == "True"){
+                this.music.unloadAsync();
+                return;
+            }
             if (!playbackStatus.isLoaded) {
                 // temporary sample tester. 
                 console.log(this.state.currentMusic);
