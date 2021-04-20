@@ -247,6 +247,11 @@ export const styles = createStyle({
     color: '@backgroundColor',
     textAlign: 'center',
   },
+  //Image
+  buttonImage: {
+    flex: 1,
+    resizeMode: 'contain',
+  },
   // Separator
   separator: {
     width: '100%',
