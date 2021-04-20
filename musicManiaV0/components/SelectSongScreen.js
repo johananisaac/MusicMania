@@ -183,9 +183,9 @@ export default class SelectSongScreen extends Component {
           Tap the songs below to add them to the current playlist!
         </Theme.Text>
         <Theme.View style={CustomStyleSheet.styles.row}>
-          <SelectOption name='Saxophone' onPress={() => this.addToPlaylist("Saxophone")}/>
-          <SelectOption name='Clarinet' onPress={() => this.addToPlaylist("Clarinet")}/>
-          <SelectOption name='Violin' onPress={() => this.addToPlaylist("Violin")}/>
+            <SelectOption name='Twinkle Twinkle' onPress={() => this.addToPlaylist("Twinkle Twinkle")} />
+            <SelectOption name='Ring Around the Rosie' onPress={() => this.addToPlaylist("Ring Around the Rosie")} />
+            <SelectOption name='Sample' onPress={() => this.addToPlaylist("Sample")} />
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.row}>
           <SelectOption name='Skidamarink' onPress={() => this.addToPlaylist("Skidamarink")}/>

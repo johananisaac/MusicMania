@@ -41,12 +41,6 @@ let RingAround = {
 
 };
 
-let Sample_Song = {
-    name: "Sample",
-    fileloc: "Eine_Kleine_Nachtmusik_by_Mozart_Copyright_Free_Music",
-    song: []
-
-};
 
 
 // Note: Artifical delay creator helper function. DO NOT use outside of testing purposes. 
@@ -88,17 +82,27 @@ export default class PlayButton extends Component {
     async componentDidMount() {
         this.getColor();
         this.getAdditionalPlayers();
-        this.setState({
-            currentMusic: TwinkleTwinkle,
-            noteName: "Initalized_state",
-            // TODO, fetch instrument settings. 
-            instruments: ["clarinet", "saxophone", "violin"]
-        });
+        
         this.noteNum = 0;
         this.instrumentChoice = 0;
         this.check_initalized = false;
         // TODO: set proper song object here, from album.
-        this.currentPlaylistTemp = [TwinkleTwinkle, RingAround, Sample_Song];
+        this.currentPlaylistTemp = ["Twinkle Twinkle", "Ring Around the Rosie", "Sample"];
+        try {
+            let currentplaylist = await AsyncStorage.getItem("currentPlaylist");
+            console.log(await AsyncStorage.getItem(currentplaylist));
+            this.currentPlaylistTemp = JSON.parse(await AsyncStorage.getItem(currentplaylist));
+        }
+        catch (error) {
+            console.log("unable to fetch playlist")
+        }
+        console.log(this.currentPlaylistTemp[0]);
+        this.setState({
+            currentMusic: this.currentPlaylistTemp[0],
+            noteName: "Initalized_state",
+            // TODO, fetch instrument settings. 
+            instruments: ["clarinet", "saxophone", "violin"]
+        });
         this.currentMusicChoice = 0;
         this.pause = false;
         
@@ -112,15 +116,69 @@ export default class PlayButton extends Component {
             //}
             if (!playbackStatus.isLoaded) {
                 // temporary sample tester. 
-                if (this.state.currentMusic.name === "Sample") {
+                console.log(this.state.currentMusic);
+                console.log(this.check_initalized);
+                if (this.state.currentMusic === "Sample") {
                     await this.music.loadAsync(
                         require('../assets/music/Eine_Kleine_Nachtmusik_by_Mozart_Copyright_Free_Music.mp3')
                     );
                 }
+                else if (this.state.currentMusic === "Skidamarink") {
+                    await this.music.loadAsync(
+                        require('../assets/music/skidamarink.mp3')
+                    );
+                }
+                else if (this.state.currentMusic === "You Are My Sunshine") {
+                    await this.music.loadAsync(
+                        require('../assets/music/You-Are-My-Sunshine.mp3')
+                    );
+                }
+                else if (this.state.currentMusic === "Whistle!") {
+                    await this.music.loadAsync(
+                        require('../assets/music/Whistle.mp3')
+                    );
+                }
+                else if (this.state.currentMusic === "Crash!") {
+                    await this.music.loadAsync(
+                        require('../assets/music/Crash.mp3')
+                    );
+                }
+                else if (this.state.currentMusic === "Splash!") {
+                    await this.music.loadAsync(
+                        require('../assets/music/Splash.mp3')
+                    );
+                }
+                else if (this.state.currentMusic === "A Little Night Music") {
+                    await this.music.loadAsync(
+                        require('../assets/music/Eine_Kleine_Nachtmusik_by_Mozart_Copyright_Free_Music.mp3')
+                    );
+                }
+                else if (this.state.currentMusic === "Whoosh!") {
+                    await this.music.loadAsync(
+                        require('../assets/music/Whoosh.mp3')
+                    );
+                }
+                else if (this.state.currentMusic === "Bop!") {
+                    await this.music.loadAsync(
+                        require('../assets/music/Bop.mp3')
+                    );
+                }
+                else if (this.state.currentMusic === "Boing!") {
+                    await this.music.loadAsync(
+                        require('../assets/music/Boing.mp3')
+                    );
+                }
                 // TODO: add more switching action for music note changes etc. 
-                else {
+                else if (this.state.currentMusic === "Twinkle Twinkle" || this.state.currentMusic === "Ring Around the Rosie") {
                     const wordsd = this.instrumentChoice;
-                    const instrument_Final = this.state.instruments[wordsd]
+                    let instrument_Final = this.state.instruments[wordsd];
+                    console.log(instrument_Final);
+                    console.log(wordsd);
+                    this.music_item = TwinkleTwinkle;
+                    if (this.state.currentMusic === "Ring Around the Rosie") {
+                        this.music_item = RingAround;
+                    }
+                    
                     if (this.pause && !this.music.isLoaded) {
                         await this.music.loadAsync(
                             require('../assets/music/Soundless.mp3')
@@ -129,7 +187,7 @@ export default class PlayButton extends Component {
                     else {
                         switch (instrument_Final) {
                             case "clarinet":
-                                switch (this.state.currentMusic.song[this.noteNum]) {
+                                switch (this.music_item.song[this.noteNum]) {
                                     case 'A4_05_F':
                                         await this.music.loadAsync(
                                             require('../assets/music/clarinet_A4_05_forte_normal.mp3')
@@ -217,7 +275,7 @@ export default class PlayButton extends Component {
                                 break;
 
                             case "saxophone":
-                                switch (this.state.currentMusic.song[this.noteNum]) {
+                                switch (this.music_item.song[this.noteNum]) {
                                     case 'A4_05_F':
                                         await this.music.loadAsync(
                                             require('../assets/music/saxophone_A4_05_forte_normal.mp3')
@@ -305,7 +363,7 @@ export default class PlayButton extends Component {
                                 break;
                             // TODO
                             case "violin":
-                                switch (this.state.currentMusic.song[this.noteNum]) {
+                                switch (this.music_item.song[this.noteNum]) {
                                     case 'A4_05_F':
                                         await this.music.loadAsync(
                                             require('../assets/music/violin_A4_05_forte_arco-normal.mp3')
@@ -418,12 +476,17 @@ export default class PlayButton extends Component {
                     );
                     await this.music.playAsync();
                 }
-                else if (this.noteNum >= this.state.currentMusic.song.length) {
-                    this.currentMusicChoice = this.currentMusicChoice + 1
-                    if (this.currentMusicChoice < 3) {
+                else if (!(this.state.currentMusic === "Twinkle Twinkle" || this.state.currentMusic === "Ring Around the Rosie")
+                    || ((this.state.currentMusic === "Twinkle Twinkle" || this.state.currentMusic === "Ring Around the Rosie")
+                        && this.noteNum >= this.music_item.song.length)) {
+                    this.currentMusicChoice = this.currentMusicChoice + 1;
+                    console.log("current music choice is: ");
+                    console.log(this.currentMusicChoice);
+                    if (this.currentMusicChoice < this.currentPlaylistTemp.length) {
                         this.state.currentMusic = this.currentPlaylistTemp[this.currentMusicChoice];
                         this.noteNum = 0;
-                        delay(5000);
+                        await delay(6000);
+                        console.log("new song in effect, after 9s delay");
                     }
                     else {
                         this.check_initalized = false;
@@ -435,7 +498,7 @@ export default class PlayButton extends Component {
         };
     }
 
-    onPlay = () => {
+    onPlay = async() => {
         
         //plays music
         if (this.check_initalized === false) {
@@ -459,6 +522,7 @@ export default class PlayButton extends Component {
             }
         }
         else {
+            console.log("attempting to change instrument");
             if (this.isPlayingCheck) {
                 try {
                     //this.music.pauseAsync();
@@ -505,7 +569,35 @@ export default class PlayButton extends Component {
             }
         }
     }
-    
+    //Experimental, restart function:
+    /*
+    onPlayOut = () => {
+        console.log("restart");
+        this.currentMusicChoice = 0;
+        this.state.currentMusic = this.currentPlaylistTemp[0];
+        this.noteNum = 0;
+        this.check_initalized = false;
+        if (this.music.isLoaded) {
+            this.music.unloadAsync();
+        }
+        try {
+            //restart
+            this.music.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdate);
+
+            try {
+                this.music.unloadAsync();
+            }
+            catch (error) {
+                console.log("Error, unable to unsync?");
+            }
+            this.noteNum = 0;
+        }
+        catch (error) {
+            // An error occurred!
+            console.log("Error, unable to start playing song");
+        }
+    }
+    */
     render() {
         this.additional_players = this.state.additional_players.map((item, index) => 
         <Theme.View key={index+2} style={CustomStyleSheet.styles.containerRow}>
@@ -534,6 +626,7 @@ export default class PlayButton extends Component {
                     onPress={this.onPlay}
                     onPressOut={() => this.getColor()}
                     //onPressIn={this.onPlayin}
+                    //delayPressOut ={15000}
                     //onPressOut={this.onPlayOut}
                     
                     rippleSize={150}>
