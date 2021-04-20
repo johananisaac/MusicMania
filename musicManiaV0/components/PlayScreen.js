@@ -16,15 +16,20 @@ export default class PlayScreen extends Component {
   render(){
     return (
       <Theme.View style={CustomStyleSheet.styles.container}>
-        <Theme.View style={CustomStyleSheet.styles.containerRow, {flex: .15}}>
+        <Theme.View style={CustomStyleSheet.styles.containerRowPlay}>
         <Button
             onPress={() => {
               //AsyncStorage.setItem("stopPlay", "True");
               this.props.nav.navigate('Home')
             }}
-            style={CustomStyleSheet.styles.buttonShort}>
-            <Theme.Text style={CustomStyleSheet.styles.shortButtonText}>Back to home!</Theme.Text>
+            style={CustomStyleSheet.styles.buttonShortPlay}>
+            <Theme.Text style={CustomStyleSheet.styles.buttonText}>Home!</Theme.Text>
         </Button>
+        <Button
+              onPress={() => this.props.nav.navigate('Help Screen')}
+              style={CustomStyleSheet.styles.helpButtonPlay}>
+              <Theme.Text style={CustomStyleSheet.styles.helpButtonText}>HELP</Theme.Text>
+              </Button>
         </Theme.View>
         <PlayButton />
         <Separator />

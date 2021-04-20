@@ -63,6 +63,13 @@ export const styles = createStyle({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  containerRowPlay: {
+    flexDirection: 'row',
+    flex: 0.15,
+    backgroundColor: '@backgroundColor',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   helpContainerRow: {
     flexDirection: 'row',
     flex: 0.5,
@@ -135,6 +142,18 @@ export const styles = createStyle({
     justifyContent: 'center',
     textAlign: 'center'
   },
+  buttonShortPlay: {
+    flex: 0.5,
+    // flexDirection: 'row',
+    // width: '100%',
+    backgroundColor: '@textColor',
+    borderColor: '@backgroundColor',
+    borderRadius: 5,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center'
+  },
   squareButton: {
     margin: 5,
     width: Spacing.SCALE_100,
@@ -174,6 +193,16 @@ export const styles = createStyle({
     margin: 10,
     height: '50%',
     width: '100%',
+    backgroundColor: '#FF0000',
+    borderColor: '@buttonColor',
+    borderRadius: 5,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  helpButtonPlay: {
+    flex: 0.5,
+    margin: 10,
     backgroundColor: '#FF0000',
     borderColor: '@buttonColor',
     borderRadius: 5,

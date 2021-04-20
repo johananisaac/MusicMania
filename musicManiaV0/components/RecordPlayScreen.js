@@ -129,7 +129,6 @@ export default class RecordPlayScreen extends React.Component {
       return;
     } 
     else if(recordingNames == null) {
-      console.log("inhere");
       recordingNames = [this.state.name]
       recordingMap = {};
       recordingMap[numRecordings] = this.state.name;
@@ -140,8 +139,6 @@ export default class RecordPlayScreen extends React.Component {
       this.props.nav.navigate('Play');
       return;
     }
-
-    console.log("nextStep");
 
     recordingNames = JSON.parse(recordingNames);
     recordingMap = JSON.parse(recordingMap);
@@ -210,15 +207,16 @@ export default class RecordPlayScreen extends React.Component {
     );
     return (
       <Theme.View style={CustomStyleSheet.styles.container}>
-        { this.state.showPlay ? PlaySound : ShowRecord }
-        <Separator />
-        <Theme.View style={CustomStyleSheet.styles.helpContainerRow}>
+      <Separator />
+      <Theme.View style={CustomStyleSheet.styles.containerRowPlay}>
               <Button
               onPress={() => this.props.nav.navigate('Help Screen')}
               style={CustomStyleSheet.styles.helpButton}>
               <Theme.Text style={CustomStyleSheet.styles.helpButtonText}>HELP</Theme.Text>
               </Button>
         </Theme.View>
+        { this.state.showPlay ? PlaySound : ShowRecord }
+        <Separator />
       </Theme.View>
     );
   }

@@ -177,6 +177,13 @@ export default class SelectPlaylistScreen extends Component {
     return (
       <ScrollView>
       <Theme.View style={CustomStyleSheet.styles.container}>
+        <Theme.View style={CustomStyleSheet.styles.helpContainerRow}>
+            <Button
+            onPress={() => this.props.nav.navigate('Help Screen')}
+            style={CustomStyleSheet.styles.helpButton}>
+            <Theme.Text style={CustomStyleSheet.styles.helpButtonText}>HELP</Theme.Text>
+            </Button>
+        </Theme.View>
         <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
           Choose a playlist to edit, or create a new one!
         </Theme.Text>

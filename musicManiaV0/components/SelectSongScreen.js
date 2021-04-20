@@ -23,7 +23,7 @@ export default class SelectSongScreen extends Component {
   }
   // save playlist
   async savePlaylist(destination) {
-    let keywords = ['Playlist_names', 'EditPlaylist', 'currentPlaylist', 'numRecordings', 'Players', 'Youtube_Playlist_names', 'recordingNames', 'recordingMap'];
+    let keywords = ['Playlist_names', 'EditPlaylist', 'currentPlaylist', 'numRecordings', 'Players', 'Youtube_Playlist_names', 'recordingNames', 'recordingMap', 'firstAppUse'];
     let playlistTemp2 = await AsyncStorage.getItem("Youtube_Playlist_names");
     let playlists2 = [];
     if(playlistTemp2 != null){

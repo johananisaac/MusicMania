@@ -16,6 +16,14 @@ export default class PlayOptionsScreen extends Component {
     return (
         <Theme.View style={CustomStyleSheet.styles.container}>
         <Separator />
+        <Theme.View style={CustomStyleSheet.styles.helpContainerRow}>
+            <Button
+            onPress={() => this.props.nav.navigate('Help Screen')}
+            style={CustomStyleSheet.styles.helpButton}>
+            <Theme.Text style={CustomStyleSheet.styles.helpButtonText}>HELP</Theme.Text>
+            </Button>
+        </Theme.View>
+        <Separator />
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
             <Button
             onPress={() => {
@@ -34,15 +42,6 @@ export default class PlayOptionsScreen extends Component {
             <Theme.Text style={CustomStyleSheet.styles.buttonText}>RECORD</Theme.Text>
             </Button>
         </Theme.View>
-        <Separator />
-        <Theme.View style={CustomStyleSheet.styles.helpContainerRow}>
-            <Button
-            onPress={() => this.props.nav.navigate('Help Screen')}
-            style={CustomStyleSheet.styles.helpButton}>
-            <Theme.Text style={CustomStyleSheet.styles.helpButtonText}>HELP</Theme.Text>
-            </Button>
-        </Theme.View>
-        <Separator />
         </Theme.View>
     )
   } 

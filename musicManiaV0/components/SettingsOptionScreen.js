@@ -164,6 +164,13 @@ export default class SettingsOptionScreen extends Component {
     return (
       <ScrollView>
       <Theme.View style={CustomStyleSheet.styles.container}>
+        <Theme.View style={CustomStyleSheet.styles.helpContainerRow}>
+            <Button
+            onPress={() => this.props.nav.navigate('Help Screen')}
+            style={CustomStyleSheet.styles.helpButton}>
+            <Theme.Text style={CustomStyleSheet.styles.helpButtonText}>HELP</Theme.Text>
+            </Button>
+        </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
           <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
             Select your color scheme!
@@ -174,6 +181,15 @@ export default class SettingsOptionScreen extends Component {
             <SelectOption name={theme.name} key={theme.name} onPress={() => theme.apply()} />
             ))
           }
+        </Theme.View>
+        <Theme.View style={CustomStyleSheet.styles.containerRow}>
+          <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
+            Options
+          </Theme.Text>
+        </Theme.View>
+        <Theme.View style={CustomStyleSheet.styles.containerRow}>
+          <SelectOption name='Toggle Select Mode' onPress={() => this.saveAccessibleSelectState("Playlist Options")}/>
+          <SelectOption name='Tutorial' onPress={() => this.props.nav.navigate('Tutorial')}/>
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
           <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
@@ -188,14 +204,6 @@ export default class SettingsOptionScreen extends Component {
         </Theme.View>
         <Theme.View style={CustomStyleSheet.styles.containerRow}>
           <Theme.View style={CustomStyleSheet.styles.container}>{this.players}</Theme.View>
-        </Theme.View>
-        <Theme.View style={CustomStyleSheet.styles.containerRow}>
-          <Theme.Text style={CustomStyleSheet.styles.baseParagraph}>
-            Accessible Select
-          </Theme.Text>
-        </Theme.View>
-        <Theme.View style={CustomStyleSheet.styles.containerRow}>
-          <SelectOption name={this.state.label} onPress={() => this.saveAccessibleSelectState("Playlist Options")}/>
         </Theme.View>
       </Theme.View>
       </ScrollView>

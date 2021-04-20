@@ -132,7 +132,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Tutorial"> 
+      <Stack.Navigator initialRouteName="Home"> 
         <Stack.Screen name="Tutorial" component={TutorialNavScreen} options={{
           headerStyle: {
             backgroundColor: '#808080',
