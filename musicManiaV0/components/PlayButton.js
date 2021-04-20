@@ -101,7 +101,7 @@ export default class PlayButton extends Component {
             currentMusic: this.currentPlaylistTemp[0],
             noteName: "Initalized_state",
             // TODO, fetch instrument settings. 
-            instruments: ["clarinet", "saxophone", "violin"]
+            instruments: ["clarinet", "saxophone", "violin", "trumpet"]
         });
         this.currentMusicChoice = 0;
         this.pause = false;
@@ -270,7 +270,7 @@ export default class PlayButton extends Component {
                                         break;
                                     default:
                                         console.log('Clarinet note not found\n');
-                                        console.log(this.state.currentMusic.song[this.noteNum]);
+                                        console.log(this.music_item.song[this.noteNum]);
                                 }
                                 break;
 
@@ -358,7 +358,7 @@ export default class PlayButton extends Component {
                                         break;
                                     default:
                                         console.log('Saxophone note not found\n');
-                                        console.log(this.state.currentMusic.song[this.noteNum]);
+                                        console.log(this.music_item.song[this.noteNum]);
                                 }
                                 break;
                             // TODO
@@ -446,11 +446,98 @@ export default class PlayButton extends Component {
                                         break;
                                     default:
                                         console.log('violin note not found\n');
-                                        console.log(this.state.currentMusic.song[this.noteNum]);
+                                        console.log(this.music_item.song[this.noteNum]);
 
                                 }
                                 break;
+                            case "trumpet":
+                                switch (this.music_item.song[this.noteNum]) {
+                                    case 'A4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_A4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'A4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_A4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'B4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_B4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'B4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_B4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'C4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_C4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'C4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_C4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'C5_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_C5_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'C5_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_C5_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'D4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_D4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'D4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_D4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'E4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_E4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'E4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_E4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'F4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_F4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'F4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_F4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'G4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_G4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'G4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/trumpet_G4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    default:
+                                        console.log('trumpet note not found\n');
+                                        console.log(this.music_item.song[this.noteNum]);
 
+                                }
+                                break;
                             default:
                                 console.log("music instrument not found\n");
                                 console.log(wordsd);
