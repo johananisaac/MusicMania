@@ -100,6 +100,7 @@ export default class PlayButton extends Component {
         // TODO: set proper song object here, from album.
         this.currentPlaylistTemp = [TwinkleTwinkle, RingAround, Sample_Song];
         this.currentMusicChoice = 0;
+        this.pause = false;
         
 
 
@@ -119,277 +120,286 @@ export default class PlayButton extends Component {
                 // TODO: add more switching action for music note changes etc. 
                 else {
                     const wordsd = this.instrumentChoice;
-                    switch (this.state.instruments[wordsd]) {
-                        case "clarinet":
-                            switch (this.state.currentMusic.song[this.noteNum]) {
-                                case 'A4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_A4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'A4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_A4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'B4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_B4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'B4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_B4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'C4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_C4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'C4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_C4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'C5_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_C5_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'C5_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_C5_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'D4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_D4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'D4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_D4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'E4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_E4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'E4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_E4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'F4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_F4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'F4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_F4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'G4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_G4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'G4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/clarinet_G4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                default:
-                                    console.log('Clarinet note not found\n');
-                                    console.log(this.state.currentMusic.song[this.noteNum]);
-                            }
-                            break;
-
-                        case "saxophone":
-                            switch (this.state.currentMusic.song[this.noteNum]) {
-                                case 'A4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_A4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'A4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_A4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'B4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_B4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'B4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_B4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'C4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_C4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'C4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_C4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'C5_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_C5_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'C5_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_C5_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'D4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_D4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'D4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_D4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'E4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_E4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'E4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_E4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'F4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_F4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'F4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_F4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'G4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_G4_05_forte_normal.mp3')
-                                    );
-                                    break;
-                                case 'G4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/saxophone_G4_025_forte_normal.mp3')
-                                    );
-                                    break;
-                                default:
-                                    console.log('Saxophone note not found\n');
-                                    console.log(this.state.currentMusic.song[this.noteNum]);
-                            }
-                            break;
-                        // TODO
-                        case "violin":
-                            switch (this.state.currentMusic.song[this.noteNum]) {
-                                case 'A4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_A4_05_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'A4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_A4_025_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'B4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_B4_05_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'B4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_B4_025_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'C4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_C4_05_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'C4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_C4_025_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'C5_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_C5_05_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'C5_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_C5_025_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'D4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_D4_05_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'D4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_D4_025_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'E4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_E4_05_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'E4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_E4_025_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'F4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_F4_05_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'F4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_F4_025_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'G4_05_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_G4_05_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                case 'G4_025_F':
-                                    await this.music.loadAsync(
-                                        require('../assets/music/violin_G4_025_forte_arco-normal.mp3')
-                                    );
-                                    break;
-                                default:
-                                    console.log('violin note not found\n');
-                                    console.log(this.state.currentMusic.song[this.noteNum]);
-
-                            }
-                            break;
-                        default:
-                            console.log("music instrument not found\n");
-                            console.log(wordsd);
+                    const instrument_Final = this.state.instruments[wordsd]
+                    if (this.pause && !this.music.isLoaded) {
+                        await this.music.loadAsync(
+                            require('../assets/music/Soundless.mp3')
+                        );
                     }
+                    else {
+                        switch (instrument_Final) {
+                            case "clarinet":
+                                switch (this.state.currentMusic.song[this.noteNum]) {
+                                    case 'A4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_A4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'A4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_A4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'B4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_B4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'B4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_B4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'C4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_C4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'C4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_C4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'C5_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_C5_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'C5_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_C5_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'D4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_D4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'D4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_D4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'E4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_E4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'E4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_E4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'F4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_F4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'F4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_F4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'G4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_G4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'G4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/clarinet_G4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    default:
+                                        console.log('Clarinet note not found\n');
+                                        console.log(this.state.currentMusic.song[this.noteNum]);
+                                }
+                                break;
 
-                    this.noteNum++;
+                            case "saxophone":
+                                switch (this.state.currentMusic.song[this.noteNum]) {
+                                    case 'A4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_A4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'A4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_A4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'B4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_B4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'B4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_B4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'C4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_C4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'C4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_C4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'C5_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_C5_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'C5_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_C5_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'D4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_D4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'D4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_D4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'E4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_E4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'E4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_E4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'F4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_F4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'F4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_F4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'G4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_G4_05_forte_normal.mp3')
+                                        );
+                                        break;
+                                    case 'G4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/saxophone_G4_025_forte_normal.mp3')
+                                        );
+                                        break;
+                                    default:
+                                        console.log('Saxophone note not found\n');
+                                        console.log(this.state.currentMusic.song[this.noteNum]);
+                                }
+                                break;
+                            // TODO
+                            case "violin":
+                                switch (this.state.currentMusic.song[this.noteNum]) {
+                                    case 'A4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_A4_05_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'A4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_A4_025_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'B4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_B4_05_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'B4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_B4_025_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'C4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_C4_05_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'C4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_C4_025_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'C5_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_C5_05_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'C5_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_C5_025_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'D4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_D4_05_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'D4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_D4_025_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'E4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_E4_05_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'E4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_E4_025_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'F4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_F4_05_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'F4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_F4_025_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'G4_05_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_G4_05_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    case 'G4_025_F':
+                                        await this.music.loadAsync(
+                                            require('../assets/music/violin_G4_025_forte_arco-normal.mp3')
+                                        );
+                                        break;
+                                    default:
+                                        console.log('violin note not found\n');
+                                        console.log(this.state.currentMusic.song[this.noteNum]);
+
+                                }
+                                break;
+
+                            default:
+                                console.log("music instrument not found\n");
+                                console.log(wordsd);
+                        }
+                        this.noteNum++;
+                    }
+                    
                 }
                 
                 await this.music.playAsync();
@@ -402,7 +412,13 @@ export default class PlayButton extends Component {
             else if (playbackStatus.didJustFinish) {
                 //console.log('note fin\n');
                 this.music.unloadAsync();
-                if (this.noteNum >= this.state.currentMusic.song.length) {
+                if (this.pause && !this.music.isLoaded) {
+                    await this.music.loadAsync(
+                        require('../assets/music/Soundless.mp3')
+                    );
+                    await this.music.playAsync();
+                }
+                else if (this.noteNum >= this.state.currentMusic.song.length) {
                     this.currentMusicChoice = this.currentMusicChoice + 1
                     if (this.currentMusicChoice < 3) {
                         this.state.currentMusic = this.currentPlaylistTemp[this.currentMusicChoice];
@@ -419,7 +435,7 @@ export default class PlayButton extends Component {
         };
     }
 
-    onPlay = async () => {
+    onPlay = () => {
         
         //plays music
         if (this.check_initalized === false) {
@@ -462,26 +478,34 @@ export default class PlayButton extends Component {
     }
     
     // Not sure why this isnt working yet 
-    /*
+    
     onlongPlay = async() => {
-        if (this.isPlaying) {
-            try {
-                this.music.pauseAsync();
+        console.log("long pressed, attempting to pause\n");
+        if (!this.pause) {
+            this.pause = true;
+            if (this.state.currentMusic.fileloc != "TEMPLATE") {
+                try {
+                    await this.music.pauseAsync();
+                }
+                catch (error) {
+                    console.log("failed to pause");
+                }
             }
-            catch (error) {
-                console.log("Error, unable to pause song \n")
-            }
+            
         }
         else {
-            try {
-                this.music.playAsync();
-            }
-            catch (error) {
-                console.log("Error, unable to start song \n")
+            this.pause = false;
+            if (this.state.currentMusic.fileloc != "TEMPLATE") {
+                try {
+                    await this.music.playAsync();
+                }
+                catch (error) {
+                    console.log("failed to pause");
+                }
             }
         }
     }
-    */
+    
     render() {
         this.additional_players = this.state.additional_players.map((item, index) => 
         <Theme.View key={index+2} style={CustomStyleSheet.styles.containerRow}>
@@ -506,11 +530,12 @@ export default class PlayButton extends Component {
                     rippleColor={this.state.color} 
                     rippleDuration={1200} 
                     rippleOpacity={0.87} 
+                    onLongPress={this.onlongPlay}
                     onPress={this.onPlay}
                     onPressOut={() => this.getColor()}
                     //onPressIn={this.onPlayin}
                     //onPressOut={this.onPlayOut}
-                    //onLongPress={this.onlongPlay}
+                    
                     rippleSize={150}>
                     <Theme.Text style={CustomStyleSheet.styles.playButtonText}>
                         Player 1: Bubba
