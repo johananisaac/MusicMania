@@ -5,6 +5,7 @@ import { Audio } from 'expo-av';
 import { CustomStyleSheet } from '../styles'
 import Theme, {createThemedComponent } from 'react-native-theming';
 import {BackHandler} from 'react-native';
+import * as FileSystem from 'expo-file-system';
 
 // Use Animated library for ripples in the future
 import Ripple from 'react-native-material-ripple';
@@ -112,7 +113,11 @@ export default class PlayButton extends Component {
         this.pause = false;
         
         await AsyncStorage.setItem("stopPlay", "False");
-
+        let recordings = await AsyncStorage.getItem("recordingMap");
+        let recNames = await AsyncStorage.getItem("recordingNames");
+        let doc_dir = await FileSystem.documentDirectory;
+        recordings = JSON.parse(recordings);
+        recNames = JSON.parse(recNames);
 
         this._onPlaybackStatusUpdate = async (playbackStatus) => {
             // loads correct note to play, iterates song note after playing
@@ -552,6 +557,15 @@ export default class PlayButton extends Component {
                         this.noteNum++;
                     }
                     
+                } else if(recNames.indexOf(this.state.currentMusic) > -1) {
+                    let filename = 0;
+                    console.log(recordings);
+                    for(var key in recordings) {
+                        if(recordings[key] == this.state.currentMusic){
+                            filename = key;
+                        }
+                    }
+                    await this.music.loadAsync({ uri: doc_dir + filename + ".caf"});
                 }
                 
                 await this.music.playAsync();
