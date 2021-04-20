@@ -6,6 +6,8 @@ With [Node 12 LTS](https://nodejs.org/en/download/) or greater installed, you ca
 npm install -g expo-cli
 npm install --save react-native-material-ripple
 npm install --save react-native-theming
+npm install --save react-native-youtube-iframe
+npm install --save react-native-gesture-handler
 ```
 
 ## Running Music Mania
